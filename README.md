@@ -60,9 +60,6 @@ Car_Price_app/
 └── README.md             # Project overview
 ```
 
-### 📸 Screenshots
-
-_Add screenshots of your app interface here once deployed._
 
 ### 📚 Future Enhancements
 
