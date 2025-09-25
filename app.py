@@ -11,8 +11,8 @@ import plotly.express as px
 st.set_page_config(
     page_title="Ultimate Car Price Predictor",
     page_icon="🚘",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="centered",  # Changed from "wide"
+    initial_sidebar_state="auto"
 )
 
 # -------------------- HELPER FUNCTIONS --------------------
@@ -147,3 +147,23 @@ if predict_button:
 st.markdown("---")
 st.markdown("<p style='text-align:center;'>Made by Sudharshan | Ultimate Streamlit Demo</p>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;'>© 2024 All rights reserved.</p>", unsafe_allow_html=True)
+
+# -------------------- DOWNLOADABLE RESULT --------------------
+result_df = pd.DataFrame({
+    "Year": [year],
+    "KM Driven": [km_driven],
+    "Fuel Type": [fuel_type],
+    "Transmission": [transmission],
+    "Predicted Price": [f"₹{predicted_price:,.2f}"]
+})
+st.download_button("Download Prediction Summary", result_df.to_csv(index=False), "car_price_prediction.csv")
+
+share_text = f"My car ({fuel_type}, {transmission}, {year}, {km_driven} km) is worth ₹{predicted_price:,.2f}!"
+st.text_area("Share this result", value=share_text, height=100)
+
+# -------------------- FEEDBACK FORM --------------------
+st.markdown("---")
+st.subheader("💬 Feedback")
+feedback = st.text_area("Any feedback or suggestions?")
+if st.button("Submit Feedback"):
+    st.success("Thanks for your feedback!")
