@@ -40,9 +40,6 @@ Welcome to the Car Price Prediction App! This interactive web application uses a
 git clone https://github.com/your-username/Car_Price_app.git
 cd Car_Price_app
 
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 
 # Install dependencies
 pip install -r requirements.txt
