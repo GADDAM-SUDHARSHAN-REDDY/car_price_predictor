@@ -160,7 +160,6 @@ st.download_button("Download Prediction Summary", result_df.to_csv(index=False),
 
 share_text = f"My car ({fuel_type}, {transmission}, {year}, {km_driven} km) is worth ₹{predicted_price:,.2f}!"
 st.text_area("Share this result", value=share_text, height=100)
-
 # -------------------- FEEDBACK FORM --------------------
 st.markdown("---")
 st.subheader("💬 Feedback")
