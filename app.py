@@ -33,7 +33,6 @@ model = joblib.load("final_linear_model.pkl")
 columns = joblib.load("model_columns.pkl")
 
 # -------------------- SIDEBAR --------------------
-# Replace with your local image (place car.png in the project folder)
 st.sidebar.image("car.png", use_container_width=True)
 st.sidebar.header("Ultimate Car Price Predictor")
 st.sidebar.write("Powered by Streamlit & AI")
@@ -140,6 +139,19 @@ if predict_button:
 
             st.success("Prediction Complete")
 
+            # -------------------- DOWNLOADABLE RESULT --------------------
+            result_df = pd.DataFrame({
+                "Year": [year],
+                "KM Driven": [km_driven],
+                "Fuel Type": [fuel_type],
+                "Transmission": [transmission],
+                "Predicted Price": [f"₹{predicted_price:,.2f}"]
+            })
+            st.download_button("Download Prediction Summary", result_df.to_csv(index=False), "car_price_prediction.csv")
+
+            share_text = f"My car ({fuel_type}, {transmission}, {year}, {km_driven} km) is worth ₹{predicted_price:,.2f}!"
+            st.text_area("Share this result", value=share_text, height=100)
+
         except Exception as e:
             st.error(f"Error during prediction: {e}")
 
@@ -148,18 +160,6 @@ st.markdown("---")
 st.markdown("<p style='text-align:center;'>Made by Sudharshan | Ultimate Streamlit Demo</p>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;'>© 2024 All rights reserved.</p>", unsafe_allow_html=True)
 
-# -------------------- DOWNLOADABLE RESULT --------------------
-result_df = pd.DataFrame({
-    "Year": [year],
-    "KM Driven": [km_driven],
-    "Fuel Type": [fuel_type],
-    "Transmission": [transmission],
-    "Predicted Price": [f"₹{predicted_price:,.2f}"]
-})
-st.download_button("Download Prediction Summary", result_df.to_csv(index=False), "car_price_prediction.csv")
-
-share_text = f"My car ({fuel_type}, {transmission}, {year}, {km_driven} km) is worth ₹{predicted_price:,.2f}!"
-st.text_area("Share this result", value=share_text, height=100)
 # -------------------- FEEDBACK FORM --------------------
 st.markdown("---")
 st.subheader("💬 Feedback")
