@@ -1,6 +1,5 @@
 # car_price_predictor
 A Streamlit app that predicts car prices using machine learning”
-Absolutely, Sudharshan! Since you're building a **car price prediction model** and deploying it as a **Streamlit web app**, here's a professional and polished `README.md` template tailored to your project goals and style:
 
 ---
 
