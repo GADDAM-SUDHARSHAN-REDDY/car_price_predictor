@@ -54,7 +54,6 @@ Car_Price_app/
 ├── data/                 # Raw and cleaned datasets
 ├── model/                # Saved model and preprocessing pipeline
 ├── app.py                # Streamlit app script
-├── utils.py              # Helper functions
 ├── requirements.txt      # Dependencies
 └── README.md             # Project overview
 ```
