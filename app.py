@@ -98,14 +98,14 @@ html, body, [data-testid="stAppViewContainer"] {
     margin: 0 auto 2.5rem;
 }
 
-/* ── Form Card ── */
-.form-card {
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px;
-    padding: 2.2rem 2rem;
-    backdrop-filter: blur(10px);
-    margin-bottom: 1.5rem;
+/* ── Form Card — targets Streamlit's native block wrapper ── */
+[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255,255,255,0.025) !important;
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
+    backdrop-filter: blur(10px) !important;
+    margin-bottom: 1.5rem !important;
 }
 .section-label {
     font-family: 'DM Sans', sans-serif;
@@ -342,7 +342,6 @@ st.markdown("""
 # ─────────────────────────────────────────────
 #  FORM
 # ─────────────────────────────────────────────
-st.markdown('<div class="form-card">', unsafe_allow_html=True)
 st.markdown('<span class="section-label">Vehicle Details</span>', unsafe_allow_html=True)
 
 # ── Row 1: Brand + Model (if map available) or simple inputs ──
@@ -376,7 +375,6 @@ with col7:
 with col8:
     owner = st.selectbox("Ownership", ["First Owner", "Second Owner", "Third Owner", "Fourth & Above Owner", "Test Drive Car"])
 
-st.markdown('</div>', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 #  VALIDATION
@@ -585,6 +583,6 @@ if predict_clicked:
 # ─────────────────────────────────────────────
 st.markdown("""
 <div class="footer">
-    <span>CarVal</span> · AI Car Price Predictor &nbsp;·&nbsp; Made by Sudharshan &nbsp;·&nbsp; © 2025
+    <span>CarVal</span> · AI Car Price Predictor &nbsp;·&nbsp; Made by <span>Sudharshan</span> &nbsp;·&nbsp; © 2025
 </div>
 """, unsafe_allow_html=True)
