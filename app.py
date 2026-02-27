@@ -354,7 +354,6 @@ if brand_model_map:
         car_model = st.selectbox("Model", sorted(brand_model_map.get(brand, [])))
 else:
     brand, car_model = None, None
-    st.info("Brand/model map not found — predictions will use Year, KM, Fuel & Transmission only.")
 
 # ── Row 2: Year + KM ──
 col3, col4 = st.columns(2)
@@ -470,7 +469,6 @@ if predict_clicked:
                 ))
 
             fig.update_layout(
-                title=None,
                 barmode='group',
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
@@ -525,7 +523,6 @@ if predict_clicked:
                 showlegend=False
             ))
             fig2.update_layout(
-                title=None,
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
                 font=dict(family='DM Sans', color='#7a7068'),
@@ -547,7 +544,13 @@ if predict_clicked:
             st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
 
             # ── Download ──
-            st.success("Valuation complete")
+            st.markdown("""
+            <div style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);
+            border-radius:10px;padding:0.9rem 1.2rem;text-align:center;margin:1rem 0;">
+                <span style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;
+                color:#d4af37;font-family:'DM Sans',sans-serif;">✦ &nbsp;Valuation Complete</span>
+            </div>
+            """, unsafe_allow_html=True)
             result_df = pd.DataFrame({
                 "Brand": [brand or "—"],
                 "Model": [car_model or "—"],
