@@ -3,375 +3,179 @@ import pandas as pd
 import joblib
 import time
 import plotly.graph_objects as go
-import plotly.express as px
 
 # ─────────────────────────────────────────────
 #  PAGE CONFIG
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="CarVal · AI Price Predictor",
+    page_title="CarVal · Intelligent Car Valuation",
     page_icon="🚗",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
 # ─────────────────────────────────────────────
-#  GLOBAL CSS  — Luxury Dark Theme
+#  DESIGN SYSTEM — Obsidian & Champagne Gold
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Outfit:wght@200;300;400;500;600&display=swap');
 
-/* ── Reset & Base ── */
+:root {
+  --gold:        #c9a84c;
+  --gold-light:  #e2c06a;
+  --gold-dim:    #8a6e30;
+  --gold-glow:   rgba(201,168,76,0.12);
+  --gold-border: rgba(201,168,76,0.2);
+  --obsidian:    #080810;
+  --surface-1:   #0e0e18;
+  --surface-2:   #13131f;
+  --surface-3:   #1a1a28;
+  --text-1:      #f2ece0;
+  --text-2:      #a89880;
+  --text-3:      #584f44;
+  --text-4:      #2e2820;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body, [data-testid="stAppViewContainer"] {
-    background: #0a0a0f !important;
-    color: #e8e0d4 !important;
-    font-family: 'DM Sans', sans-serif !important;
-}
-
 [data-testid="stAppViewContainer"] {
-    background: radial-gradient(ellipse at 20% 0%, #1a1025 0%, #0a0a0f 60%) !important;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 30% at 90% 90%, rgba(80,40,140,0.04) 0%, transparent 50%),
+        #080810 !important;
+    min-height: 100vh;
 }
-
-/* hide streamlit chrome */
+[data-testid="stMain"] { background: transparent !important; }
 #MainMenu, footer, header, [data-testid="stToolbar"],
-[data-testid="stDecoration"], [data-testid="stStatusWidget"] { display: none !important; }
+[data-testid="stDecoration"], [data-testid="stStatusWidget"],
+[data-testid="stSidebar"] { display: none !important; }
+.block-container { max-width: 800px !important; padding: 0 2rem 6rem !important; }
 
-/* ── Sidebar ── */
-[data-testid="stSidebar"] {
-    background: #0f0f18 !important;
-    border-right: 1px solid rgba(255,220,150,0.08) !important;
+/* ── NAVBAR ── */
+.navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.8rem 0 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    margin-bottom: 0;
 }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--text-1); letter-spacing: 0.06em; }
+.nav-logo em { color: var(--gold); font-style: italic; }
+.nav-pill { font-family: 'Outfit', sans-serif; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-glow); border: 1px solid var(--gold-border); padding: 0.28rem 0.85rem; border-radius: 20px; }
 
-/* ── Block container ── */
-.block-container {
-    max-width: 780px !important;
-    padding: 2rem 1.5rem 4rem !important;
-}
+/* ── HERO ── */
+.hero { padding: 5rem 0 3rem; text-align: center; position: relative; }
+.hero::before { content:''; position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); width:500px; height:200px; background:radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%); pointer-events:none; }
+.hero-eyebrow { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; display:flex; align-items:center; justify-content:center; gap:0.8rem; }
+.hero-eyebrow::before, .hero-eyebrow::after { content:''; width:28px; height:1px; background:var(--gold-dim); }
+.hero-h1 { font-family:'Playfair Display',serif !important; font-size:clamp(2.8rem,7.5vw,4.8rem) !important; font-weight:300 !important; line-height:1.1 !important; letter-spacing:-0.01em !important; color:var(--text-1) !important; margin-bottom:0.2rem !important; }
+.hero-h1 .accent { font-style:italic; background:linear-gradient(135deg,#e2c06a 0%,#c9a84c 50%,#a07830 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-sub { font-family:'Outfit',sans-serif; font-size:0.88rem; font-weight:300; color:var(--text-3); letter-spacing:0.06em; margin-top:1.2rem; margin-bottom:3rem; }
+.hero-orn { display:flex; align-items:center; justify-content:center; gap:0.6rem; }
+.hero-orn-l { width:48px; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dim)); }
+.hero-orn-r { width:48px; height:1px; background:linear-gradient(90deg,var(--gold-dim),transparent); }
+.hero-orn-d { font-size:0.38rem; color:var(--gold); opacity:0.6; }
 
-/* ── Hero Section ── */
-.hero {
-    text-align: center;
-    padding: 3.5rem 0 2rem;
-    position: relative;
-}
-.hero-badge {
-    display: inline-block;
-    background: rgba(212,175,55,0.12);
-    border: 1px solid rgba(212,175,55,0.3);
-    color: #d4af37;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 0.35rem 1rem;
-    border-radius: 20px;
-    margin-bottom: 1.2rem;
-}
-.hero-title {
-    font-family: 'Cormorant Garamond', serif !important;
-    font-size: clamp(2.8rem, 7vw, 4.2rem) !important;
-    font-weight: 300 !important;
-    letter-spacing: -0.02em !important;
-    line-height: 1.1 !important;
-    color: #f0ebe3 !important;
-    margin-bottom: 0.5rem !important;
-}
-.hero-title span {
-    color: #d4af37;
-    font-style: italic;
-}
-.hero-sub {
-    font-size: 0.95rem;
-    color: #7a7068;
-    letter-spacing: 0.03em;
-    font-weight: 300;
-    margin-bottom: 2.5rem;
-}
-.divider {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent);
-    margin: 0 auto 2.5rem;
-}
+/* ── STATS STRIP ── */
+.stats-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.05); border-radius:14px; overflow:hidden; margin:2.5rem 0 3rem; }
+.stat-item { background:var(--surface-1); padding:1.2rem 1rem; text-align:center; }
+.stat-num { font-family:'Playfair Display',serif; font-size:1.55rem; font-weight:400; color:var(--gold); letter-spacing:-0.02em; display:block; line-height:1; margin-bottom:0.3rem; }
+.stat-label { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-3); }
 
-/* ── Form Card — targets Streamlit's native block wrapper ── */
-[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlockBorderWrapper"] {
-    background: rgba(255,255,255,0.025) !important;
-    border: 1px solid rgba(255,255,255,0.07) !important;
-    border-radius: 16px !important;
-    padding: 1.5rem !important;
-    backdrop-filter: blur(10px) !important;
-    margin-bottom: 1.5rem !important;
-}
-.section-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #d4af37;
-    margin-bottom: 1.2rem;
-    display: block;
-}
+/* ── FORM HEADER ── */
+.form-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.8rem; }
+.form-header-line { flex:1; height:1px; background:rgba(255,255,255,0.05); }
+.form-header-text { font-family:'Outfit',sans-serif; font-size:0.58rem; font-weight:500; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); white-space:nowrap; }
 
-/* ── Streamlit widget overrides ── */
+/* ── STEP BADGE ── */
+.step-badge { display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:0.7rem; }
+.step-num { width:20px; height:20px; border-radius:50%; background:var(--gold-glow); border:1px solid var(--gold-border); font-family:'Outfit',sans-serif; font-size:0.58rem; font-weight:600; color:var(--gold); display:flex; align-items:center; justify-content:center; }
+.step-text { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-2); }
+
+/* ── WIDGETS ── */
 [data-testid="stSelectbox"] label,
-[data-testid="stNumberInput"] label,
-[data-testid="stTextInput"] label {
-    font-size: 0.78rem !important;
-    font-weight: 400 !important;
-    color: #9a9088 !important;
-    letter-spacing: 0.04em !important;
-    text-transform: uppercase !important;
-    font-family: 'DM Sans', sans-serif !important;
+[data-testid="stNumberInput"] label {
+    font-family:'Outfit',sans-serif !important; font-size:0.63rem !important; font-weight:400 !important;
+    letter-spacing:0.15em !important; text-transform:uppercase !important; color:var(--text-3) !important; margin-bottom:0.25rem !important;
 }
-
 [data-testid="stSelectbox"] > div > div,
 [data-testid="stNumberInput"] input {
-    background: rgba(255,255,255,0.04) !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    border-radius: 8px !important;
-    color: #e8e0d4 !important;
-    font-family: 'DM Sans', sans-serif !important;
-    transition: border-color 0.2s !important;
+    background:var(--surface-2) !important; border:1px solid rgba(255,255,255,0.07) !important;
+    border-radius:10px !important; color:var(--text-1) !important; font-family:'Outfit',sans-serif !important;
+    font-size:0.88rem !important; font-weight:300 !important; transition:all 0.2s ease !important;
 }
+[data-testid="stSelectbox"] > div > div:hover { border-color:rgba(201,168,76,0.35) !important; background:var(--surface-3) !important; }
+[data-testid="stNumberInput"] input:focus { border-color:rgba(201,168,76,0.5) !important; box-shadow:0 0 0 3px rgba(201,168,76,0.05) !important; background:var(--surface-3) !important; outline:none !important; }
+[data-testid="stSelectbox"] svg { color:var(--gold-dim) !important; }
+[data-testid="stNumberInput"] button { background:var(--surface-3) !important; border-color:rgba(255,255,255,0.07) !important; color:var(--text-2) !important; border-radius:8px !important; }
+[data-testid="stNumberInput"] button:hover { border-color:var(--gold-border) !important; color:var(--gold) !important; }
 
-[data-testid="stSelectbox"] > div > div:hover,
-[data-testid="stNumberInput"] input:focus {
-    border-color: rgba(212,175,55,0.5) !important;
-}
-
-/* ── Button ── */
+/* ── CTA BUTTON ── */
 [data-testid="stButton"] > button {
-    width: 100% !important;
-    background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%) !important;
-    color: #0a0a0f !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 0.85rem 2rem !important;
-    font-family: 'DM Sans', sans-serif !important;
-    font-size: 0.85rem !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.12em !important;
-    text-transform: uppercase !important;
-    cursor: pointer !important;
-    transition: all 0.25s ease !important;
-    box-shadow: 0 4px 24px rgba(212,175,55,0.2) !important;
-    margin-top: 1rem !important;
+    width:100% !important;
+    background:linear-gradient(135deg,#c9a84c 0%,#9a7828 50%,#c9a84c 100%) !important;
+    background-size:200% 100% !important;
+    color:#06060c !important; border:none !important; border-radius:12px !important;
+    padding:1.05rem 2rem !important; font-family:'Outfit',sans-serif !important;
+    font-size:0.75rem !important; font-weight:600 !important; letter-spacing:0.22em !important;
+    text-transform:uppercase !important; cursor:pointer !important; transition:all 0.35s ease !important;
+    box-shadow:0 0 40px rgba(201,168,76,0.12), 0 4px 20px rgba(0,0,0,0.5) !important;
+    margin-top:1.5rem !important;
 }
-[data-testid="stButton"] > button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 32px rgba(212,175,55,0.35) !important;
-    background: linear-gradient(135deg, #e0bc44 0%, #c4a035 100%) !important;
-}
-[data-testid="stButton"] > button:active {
-    transform: translateY(0) !important;
-}
+[data-testid="stButton"] > button:hover { transform:translateY(-3px) !important; box-shadow:0 0 60px rgba(201,168,76,0.25),0 10px 30px rgba(0,0,0,0.6) !important; background-position:right center !important; }
+[data-testid="stButton"] > button:active { transform:translateY(-1px) !important; }
 
-/* ── Result Card ── */
-.result-card {
-    background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.03) 100%);
-    border: 1px solid rgba(212,175,55,0.25);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    margin: 2rem 0;
-}
-.result-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #d4af37;
-    margin-bottom: 0.6rem;
-}
-.result-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 8vw, 4rem);
-    font-weight: 600;
-    color: #f0ebe3;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 0.4rem;
-}
-.result-meta {
-    font-size: 0.78rem;
-    color: #5c5550;
-}
+/* ── RESULT CARD ── */
+.result-outer { position:relative; margin:2.5rem 0; border-radius:20px; padding:1px; background:linear-gradient(135deg,rgba(201,168,76,0.5) 0%,rgba(201,168,76,0.08) 40%,rgba(201,168,76,0.3) 100%); }
+.result-inner { background:linear-gradient(160deg,#13131f 0%,#080810 100%); border-radius:19px; padding:3rem 2.5rem 2.5rem; text-align:center; position:relative; overflow:hidden; }
+.result-inner::before { content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:320px; height:180px; background:radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 70%); pointer-events:none; }
+.result-eyebrow { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:500; letter-spacing:0.38em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:1rem; }
+.result-price { font-family:'Playfair Display',serif; font-size:clamp(3rem,9vw,5.5rem); font-weight:300; letter-spacing:-0.02em; line-height:1; color:var(--text-1); margin-bottom:0.3rem; }
+.result-price .rupee { font-size:0.6em; vertical-align:0.15em; color:var(--gold); font-style:italic; }
+.result-lakh { font-family:'Outfit',sans-serif; font-size:0.78rem; font-weight:300; color:var(--text-4); letter-spacing:0.12em; margin-bottom:2.5rem; }
+.result-lakh span { color:var(--gold-dim); }
+.pills-row { display:flex; justify-content:center; gap:0.6rem; flex-wrap:wrap; }
+.pill { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:0.6rem 1rem; text-align:center; min-width:75px; }
+.pill-label { font-family:'Outfit',sans-serif; font-size:0.5rem; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-3); margin-bottom:0.28rem; }
+.pill-value { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:400; color:var(--text-2); }
 
-/* ── Metric Pills ── */
-.metric-row {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
-}
-.metric-pill {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 0.6rem 1.1rem;
-    text-align: center;
-}
-.metric-pill-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #5c5550;
-    margin-bottom: 0.2rem;
-}
-.metric-pill-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #c8b97a;
-}
+/* ── CHART HEADERS ── */
+.chart-header { margin:2.5rem 0 0.6rem; display:flex; align-items:baseline; gap:0.8rem; }
+.chart-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:400; font-style:italic; color:var(--text-2); }
+.chart-sub { font-family:'Outfit',sans-serif; font-size:0.58rem; font-weight:400; letter-spacing:0.12em; color:var(--text-3); text-transform:uppercase; }
 
-/* ── Chart container ── */
-.chart-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: #9a9088;
-    letter-spacing: 0.04em;
-    margin: 2rem 0 0.5rem;
-}
+/* ── COMPLETE BANNER ── */
+.complete-banner { display:flex; align-items:center; justify-content:center; gap:0.8rem; padding:0.9rem 1.5rem; margin:1.5rem 0; background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(201,168,76,0.02)); border:1px solid rgba(201,168,76,0.15); border-radius:12px; }
+.complete-line { flex:1; height:1px; background:rgba(201,168,76,0.08); }
+.complete-icon { color:var(--gold); font-size:0.6rem; opacity:0.7; }
+.complete-text { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold); }
 
-/* ── Download Button ── */
-[data-testid="stDownloadButton"] > button {
-    background: transparent !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-    color: #9a9088 !important;
-    border-radius: 8px !important;
-    font-size: 0.78rem !important;
-    letter-spacing: 0.08em !important;
-    padding: 0.5rem 1.2rem !important;
-    font-family: 'DM Sans', sans-serif !important;
-    transition: all 0.2s !important;
-}
-[data-testid="stDownloadButton"] > button:hover {
-    border-color: rgba(212,175,55,0.4) !important;
-    color: #d4af37 !important;
-}
+/* ── DOWNLOAD / SHARE ── */
+[data-testid="stDownloadButton"] > button { background:transparent !important; border:1px solid rgba(255,255,255,0.09) !important; color:var(--text-2) !important; border-radius:10px !important; font-family:'Outfit',sans-serif !important; font-size:0.68rem !important; font-weight:400 !important; letter-spacing:0.1em !important; padding:0.6rem 1.4rem !important; transition:all 0.2s !important; margin-top:0 !important; box-shadow:none !important; }
+[data-testid="stDownloadButton"] > button:hover { border-color:var(--gold-border) !important; color:var(--gold) !important; transform:none !important; box-shadow:none !important; }
+[data-testid="stTextArea"] textarea { background:var(--surface-2) !important; border:1px solid rgba(255,255,255,0.05) !important; border-radius:10px !important; color:var(--text-3) !important; font-family:'Outfit',sans-serif !important; font-size:0.75rem !important; font-weight:300 !important; resize:none !important; }
+[data-testid="stTextArea"] label { display:none !important; }
 
-/* ── Text Area ── */
-[data-testid="stTextArea"] textarea {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
-    border-radius: 8px !important;
-    color: #7a7068 !important;
-    font-size: 0.82rem !important;
-    font-family: 'DM Sans', sans-serif !important;
-}
+/* ── FOOTER ── */
+.footer-section { margin-top:5rem; padding-top:3rem; position:relative; text-align:center; }
+.footer-top-border { position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:1px; background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.05) 25%,rgba(201,168,76,0.2) 50%,rgba(255,255,255,0.05) 75%,transparent 100%); }
+.footer-wordmark { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:300; letter-spacing:0.35em; text-transform:uppercase; color:rgba(242,236,224,0.05); display:block; margin-bottom:1.5rem; line-height:1; user-select:none; }
+.footer-wordmark em { font-style:italic; color:rgba(201,168,76,0.1); }
+.footer-mid { display:flex; align-items:center; justify-content:center; gap:0.8rem; margin-bottom:0.9rem; }
+.footer-brand-sm { font-family:'Playfair Display',serif; font-size:0.9rem; font-weight:400; color:rgba(201,168,76,0.4); letter-spacing:0.1em; }
+.footer-brand-sm em { font-style:italic; color:rgba(201,168,76,0.6); }
+.footer-tag { font-family:'Outfit',sans-serif; font-size:0.56rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(201,168,76,0.2); }
+.footer-sep-sm { color:rgba(255,255,255,0.1); font-size:0.4rem; }
+.footer-meta { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:300; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-4); display:flex; align-items:center; justify-content:center; gap:0.9rem; flex-wrap:wrap; }
+.footer-meta .name { color:rgba(201,168,76,0.55); font-weight:500; letter-spacing:0.22em; }
+.footer-meta .dot { opacity:0.25; }
 
-/* ── Spinner ── */
-[data-testid="stSpinner"] { color: #d4af37 !important; }
-
-/* ── Progress bar ── */
-[data-testid="stProgress"] > div > div {
-    background: linear-gradient(90deg, #d4af37, #b8962e) !important;
-}
-
-/* ── Success / Warning / Error ── */
-[data-testid="stSuccess"] {
-    background: rgba(212,175,55,0.08) !important;
-    border: 1px solid rgba(212,175,55,0.2) !important;
-    border-radius: 8px !important;
-    color: #c8b97a !important;
-}
-[data-testid="stWarning"] {
-    border-radius: 8px !important;
-}
-
-/* ── Footer ── */
-.footer-wrap {
-    margin-top: 4rem;
-    padding: 2.5rem 0 2rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    text-align: center;
-    position: relative;
-}
-.footer-glow {
-    position: absolute;
-    top: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent);
-}
-.footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 300;
-    color: #f0ebe3;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.25rem;
-}
-.footer-logo em {
-    color: #d4af37;
-    font-style: italic;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-}
-.footer-tagline {
-    font-size: 0.58rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: #2e2b28;
-    margin-bottom: 1.6rem;
-    display: block;
-}
-.footer-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    margin-bottom: 1.2rem;
-}
-.footer-divider-line {
-    width: 36px;
-    height: 1px;
-    background: rgba(255,255,255,0.05);
-    display: inline-block;
-}
-.footer-diamond { color: #d4af37; font-size: 0.45rem; opacity: 0.5; }
-.footer-meta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2rem;
-    flex-wrap: wrap;
-}
-.footer-meta-item {
-    font-size: 0.6rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #2a2520;
-}
-.footer-dot {
-    width: 2px; height: 2px;
-    background: #2a2520;
-    border-radius: 50%;
-    display: inline-block;
-}
-.footer-author { color: #2a2520; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; }
-.footer-author strong { color: #c8a84b; font-weight: 500; letter-spacing: 0.22em; }
-
-/* ── Columns gap ── */
-[data-testid="column"] { padding: 0 0.4rem !important; }
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0a0a0f; }
-::-webkit-scrollbar-thumb { background: #2a2520; border-radius: 2px; }
+/* ── MISC ── */
+[data-testid="column"] { padding:0 0.35rem !important; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:#080810; }
+::-webkit-scrollbar-thumb { background:#1a1a28; border-radius:2px; }
+[data-testid="stSpinner"] p { color:var(--gold) !important; font-family:'Outfit',sans-serif !important; font-size:0.78rem !important; letter-spacing:0.1em !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -380,9 +184,9 @@ html, body, [data-testid="stAppViewContainer"] {
 # ─────────────────────────────────────────────
 @st.cache_resource
 def load_model():
-    model = joblib.load("final_linear_model.pkl")
-    columns = joblib.load("model_columns.pkl")
-    return model, columns
+    m = joblib.load("final_linear_model.pkl")
+    c = joblib.load("model_columns.pkl")
+    return m, c
 
 @st.cache_data
 def load_brand_model_map():
@@ -392,7 +196,6 @@ def load_brand_model_map():
         return None
 
 def indian_format(n):
-    """Format number in Indian style: 1,23,45,678"""
     n = int(n)
     s = str(n)
     if len(s) <= 3:
@@ -411,81 +214,117 @@ model, columns = load_model()
 brand_model_map = load_brand_model_map()
 
 # ─────────────────────────────────────────────
+#  NAVBAR
+# ─────────────────────────────────────────────
+st.markdown("""
+<div class="navbar">
+    <div class="nav-logo">Car<em>Val</em></div>
+    <div class="nav-pill">India · 2025</div>
+</div>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────
 #  HERO
 # ─────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <div class="hero-badge">AI-Powered Valuation</div>
-    <div class="hero-title">What's your car<br><span>worth today?</span></div>
-    <p class="hero-sub">Instant market price estimation · Indian used car market</p>
-    <div class="divider"></div>
+    <div class="hero-eyebrow">Intelligent Valuation Engine</div>
+    <div class="hero-h1">Know the true<br><span class="accent">worth of your car</span></div>
+    <div class="hero-sub">Machine-learning powered &nbsp;·&nbsp; 3,500+ real transactions &nbsp;·&nbsp; Indian market</div>
+    <div class="hero-orn">
+        <span class="hero-orn-l"></span>
+        <span class="hero-orn-d">◆</span>
+        <span class="hero-orn-r"></span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────
+#  STATS STRIP
+# ─────────────────────────────────────────────
+st.markdown("""
+<div class="stats-strip">
+    <div class="stat-item">
+        <span class="stat-num">3,500+</span>
+        <span class="stat-label">Transactions Analysed</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-num">29</span>
+        <span class="stat-label">Brands Covered</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-num">~80%</span>
+        <span class="stat-label">Accuracy</span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 #  FORM
 # ─────────────────────────────────────────────
-st.markdown('<span class="section-label">Vehicle Details</span>', unsafe_allow_html=True)
+st.markdown("""
+<div class="form-header">
+    <div class="form-header-line"></div>
+    <div class="form-header-text">Vehicle Details</div>
+    <div class="form-header-line"></div>
+</div>
+""", unsafe_allow_html=True)
 
-# ── Row 1: Brand + Model (if map available) or simple inputs ──
+st.markdown('<div class="step-badge"><div class="step-num">1</div><div class="step-text">Identity</div></div>', unsafe_allow_html=True)
 if brand_model_map:
-    col1, col2 = st.columns(2)
-    with col1:
+    c1, c2 = st.columns(2)
+    with c1:
         brand = st.selectbox("Brand", sorted(brand_model_map.keys()))
-    with col2:
+    with c2:
         car_model = st.selectbox("Model", sorted(brand_model_map.get(brand, [])))
 else:
     brand, car_model = None, None
 
-# ── Row 2: Year + KM ──
-col3, col4 = st.columns(2)
-with col3:
-    year = st.number_input("Year of Manufacture", min_value=1990, max_value=2025, value=2020)
-with col4:
+st.markdown('<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">2</div><div class="step-text">Usage History</div></div>', unsafe_allow_html=True)
+c3, c4 = st.columns(2)
+with c3:
+    year = st.number_input("Year of Manufacture", min_value=1990, max_value=2025, value=2019)
+with c4:
     km_driven = st.number_input("Kilometres Driven", min_value=0, max_value=1000000, value=45000, step=1000)
 
-# ── Row 3: Fuel + Transmission ──
-col5, col6 = st.columns(2)
-with col5:
+st.markdown('<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">3</div><div class="step-text">Specifications</div></div>', unsafe_allow_html=True)
+c5, c6 = st.columns(2)
+with c5:
     fuel_type = st.selectbox("Fuel Type", ["Petrol", "Diesel", "CNG", "LPG", "Electric"])
-with col6:
+with c6:
     transmission = st.selectbox("Transmission", ["Manual", "Automatic"])
 
-# ── Row 4: Seller Type + Owner ──
-col7, col8 = st.columns(2)
-with col7:
+st.markdown('<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">4</div><div class="step-text">Ownership</div></div>', unsafe_allow_html=True)
+c7, c8 = st.columns(2)
+with c7:
     seller_type = st.selectbox("Seller Type", ["Individual", "Dealer", "Trustmark Dealer"])
-with col8:
-    owner = st.selectbox("Ownership", ["First Owner", "Second Owner", "Third Owner", "Fourth & Above Owner", "Test Drive Car"])
-
-
-# ─────────────────────────────────────────────
-#  VALIDATION
-# ─────────────────────────────────────────────
-if km_driven < 0:
-    st.warning("KM Driven cannot be negative.")
-    st.stop()
+with c8:
+    owner = st.selectbox("Owner History", ["First Owner", "Second Owner", "Third Owner", "Fourth & Above Owner", "Test Drive Car"])
 
 # ─────────────────────────────────────────────
-#  PREDICT BUTTON
+#  CTA
 # ─────────────────────────────────────────────
-predict_clicked = st.button("✦  Estimate Value", key="predict")
+predict_clicked = st.button("◈   Estimate My Car's Value", key="predict")
 
+# ─────────────────────────────────────────────
+#  PREDICTION
+# ─────────────────────────────────────────────
 if predict_clicked:
-    with st.spinner("Analysing market data…"):
-        time.sleep(0.8)
+    if km_driven < 0:
+        st.warning("KM Driven cannot be negative.")
+        st.stop()
 
-        # ── Build input row ──
+    with st.spinner("Analysing market data…"):
+        time.sleep(0.9)
+
         input_data = dict.fromkeys(columns, 0)
         input_data['Year'] = year
         input_data['KM_Driven'] = km_driven
 
-        # Map column names exactly as produced by pd.get_dummies on the training set
         mappings = [
             (f"Brand_{brand}", 1) if brand else None,
             (f"Model_{car_model}", 1) if car_model else None,
             (f"Fuel_{fuel_type}", 1),
-            # Transmission: drop_first=True drops Automatic, so Manual is the flag
             ("Transmission_Manual", 1) if transmission == "Manual" else None,
             (f"Seller_Type_{seller_type}", 1),
             (f"Owner_{owner}", 1),
@@ -494,87 +333,56 @@ if predict_clicked:
             if item and item[0] in input_data:
                 input_data[item[0]] = item[1]
 
-        input_df = pd.DataFrame([input_data])
-
         try:
-            predicted_price = model.predict(input_df)[0]
-            predicted_price = max(predicted_price, 0)  # no negative prices
+            predicted_price = max(model.predict(pd.DataFrame([input_data]))[0], 0)
+            fmt   = indian_format(predicted_price)
+            lakh  = f"{predicted_price/100000:.2f} Lakh"
 
-            # ── Result Card ──
-            formatted = f"₹{indian_format(predicted_price)}"
-            lakh_str = f"{predicted_price/100000:.2f} Lakh"
+            # RESULT CARD
             st.markdown(f"""
-            <div class="result-card">
-                <div class="result-label">Estimated Market Value</div>
-                <div class="result-price">{formatted}</div>
-                <div class="result-meta">{lakh_str}</div>
-                <div class="metric-row">
-                    <div class="metric-pill">
-                        <div class="metric-pill-label">Year</div>
-                        <div class="metric-pill-value">{year}</div>
-                    </div>
-                    <div class="metric-pill">
-                        <div class="metric-pill-label">KM Driven</div>
-                        <div class="metric-pill-value">{km_driven:,}</div>
-                    </div>
-                    <div class="metric-pill">
-                        <div class="metric-pill-label">Fuel</div>
-                        <div class="metric-pill-value">{fuel_type}</div>
-                    </div>
-                    <div class="metric-pill">
-                        <div class="metric-pill-label">Gearbox</div>
-                        <div class="metric-pill-value">{transmission}</div>
-                    </div>
+            <div class="result-outer">
+              <div class="result-inner">
+                <div class="result-eyebrow">Estimated Market Value</div>
+                <div class="result-price"><span class="rupee">₹</span>{fmt}</div>
+                <div class="result-lakh">≈ <span>{lakh}</span></div>
+                <div class="pills-row">
+                    <div class="pill"><div class="pill-label">Brand</div><div class="pill-value">{brand or '—'}</div></div>
+                    <div class="pill"><div class="pill-label">Year</div><div class="pill-value">{year}</div></div>
+                    <div class="pill"><div class="pill-label">KM</div><div class="pill-value">{km_driven:,}</div></div>
+                    <div class="pill"><div class="pill-label">Fuel</div><div class="pill-value">{fuel_type}</div></div>
+                    <div class="pill"><div class="pill-label">Gear</div><div class="pill-value">{transmission}</div></div>
                 </div>
+              </div>
             </div>
             """, unsafe_allow_html=True)
 
-            # ── Benchmark Chart ──
-            avg_price   = 550000
-            min_price   = 100000
-            max_price   = 1500000
-
+            # BENCHMARK CHART
             fig = go.Figure()
-            bar_colors = ['#d4af37', '#3d3530', '#2a2520', '#1f1c18']
-            labels = ['Your Car', 'Market Avg', 'Min Range', 'Max Range']
-            values = [predicted_price, avg_price, min_price, max_price]
-
-            for label, val, color in zip(labels, values, bar_colors):
+            for label, val, color in [
+                ("Your Car",   predicted_price, "#c9a84c"),
+                ("Mkt Avg",    550000,           "#3a3028"),
+                ("Min Range",  80000,            "#252020"),
+                ("Max Range",  1500000,          "#1e1a18"),
+            ]:
                 fig.add_trace(go.Bar(
-                    name=label, x=[label], y=[val],
-                    marker_color=color,
-                    marker_line_width=0,
-                    text=f"₹{val/100000:.1f}L",
-                    textposition='outside',
-                    textfont=dict(color='#7a7068', size=11, family='DM Sans')
+                    name=label, x=[label], y=[val], marker_color=color, marker_line_width=0,
+                    text=f"₹{val/100000:.1f}L", textposition='outside',
+                    textfont=dict(color='#584f44', size=10, family='Outfit')
                 ))
-
             fig.update_layout(
-                barmode='group',
-                paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='DM Sans', color='#7a7068'),
+                barmode='group', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Outfit', color='#584f44', size=10),
                 showlegend=True,
-                legend=dict(
-                    orientation='h', yanchor='bottom', y=1.02,
-                    xanchor='right', x=1,
-                    font=dict(size=10, color='#5c5550')
-                ),
+                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1, font=dict(size=9, color='#584f44'), bgcolor='rgba(0,0,0,0)'),
                 xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-                yaxis=dict(
-                    showgrid=True, gridcolor='rgba(255,255,255,0.04)',
-                    zeroline=False, tickfont=dict(size=10),
-                    tickformat=',.0f', tickprefix='₹'
-                ),
-                margin=dict(l=10, r=10, t=40, b=10),
-                height=300,
+                yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.03)', zeroline=False, tickfont=dict(size=9), tickformat=',.0f', tickprefix='₹'),
+                margin=dict(l=10, r=10, t=44, b=10), height=290, bargap=0.35,
             )
-            st.markdown('<p class="chart-title">Price Benchmark</p>', unsafe_allow_html=True)
+            st.markdown('<div class="chart-header"><span class="chart-title">Price Benchmark</span><span class="chart-sub">vs Indian Market</span></div>', unsafe_allow_html=True)
             st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-            # ── KM Trend Chart ──
-            km_range = [max(0, km_driven - 30000), max(0, km_driven - 15000),
-                        km_driven, km_driven + 15000, km_driven + 30000]
+            # KM TREND CHART
+            km_range = [max(0, km_driven-40000), max(0, km_driven-20000), km_driven, km_driven+20000, km_driven+40000]
             trend_prices = []
             for k in km_range:
                 row = dict.fromkeys(columns, 0)
@@ -587,76 +395,54 @@ if predict_clicked:
 
             fig2 = go.Figure()
             fig2.add_trace(go.Scatter(
-                x=km_range, y=trend_prices,
-                mode='lines+markers',
-                line=dict(color='#d4af37', width=2),
-                marker=dict(color='#d4af37', size=6),
-                fill='tozeroy',
-                fillcolor='rgba(212,175,55,0.05)',
-                name='Price'
+                x=km_range, y=trend_prices, mode='lines',
+                line=dict(color='rgba(201,168,76,0.25)', width=2),
+                fill='tozeroy', fillcolor='rgba(201,168,76,0.03)',
+                showlegend=False, hovertemplate='%{x:,} km → ₹%{y:,.0f}<extra></extra>'
             ))
-            # Highlight current point
             fig2.add_trace(go.Scatter(
-                x=[km_driven], y=[predicted_price],
-                mode='markers',
-                marker=dict(color='#d4af37', size=12, line=dict(color='#0a0a0f', width=2)),
-                name='Your Car',
+                x=km_range, y=trend_prices, mode='markers',
+                marker=dict(color='rgba(201,168,76,0.45)', size=5, line=dict(color='#080810', width=1)),
                 showlegend=False
             ))
+            fig2.add_trace(go.Scatter(
+                x=[km_driven], y=[predicted_price], mode='markers',
+                marker=dict(color='#c9a84c', size=14, line=dict(color='#080810', width=2.5)),
+                showlegend=False, hovertemplate=f'Your Car: ₹{fmt}<extra></extra>'
+            ))
+            fig2.add_vline(x=km_driven, line_width=1, line_dash='dot', line_color='rgba(201,168,76,0.15)')
             fig2.update_layout(
-                paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='DM Sans', color='#7a7068'),
-                showlegend=False,
-                xaxis=dict(
-                    title='KM Driven', showgrid=False, zeroline=False,
-                    tickfont=dict(size=10), title_font=dict(size=11)
-                ),
-                yaxis=dict(
-                    title='Est. Price (₹)', showgrid=True,
-                    gridcolor='rgba(255,255,255,0.04)',
-                    zeroline=False, tickfont=dict(size=10),
-                    tickformat=',.0f', title_font=dict(size=11)
-                ),
-                margin=dict(l=10, r=10, t=20, b=10),
-                height=260,
+                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(family='Outfit', color='#584f44', size=10), showlegend=False,
+                xaxis=dict(title=dict(text='Kilometres Driven', font=dict(size=10)), showgrid=False, zeroline=False, tickfont=dict(size=9)),
+                yaxis=dict(title=dict(text='Estimated Price', font=dict(size=10)), showgrid=True, gridcolor='rgba(255,255,255,0.03)', zeroline=False, tickfont=dict(size=9), tickformat=',.0f', tickprefix='₹'),
+                margin=dict(l=10, r=10, t=20, b=10), height=260, hovermode='x unified'
             )
-            st.markdown('<p class="chart-title">Price vs Kilometres</p>', unsafe_allow_html=True)
+            st.markdown('<div class="chart-header"><span class="chart-title">Depreciation Curve</span><span class="chart-sub">Price vs KM Driven</span></div>', unsafe_allow_html=True)
             st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
 
-            # ── Download ──
+            # COMPLETE BANNER
             st.markdown("""
-            <div style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);
-            border-radius:10px;padding:0.9rem 1.2rem;text-align:center;margin:1rem 0;">
-                <span style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;
-                color:#d4af37;font-family:'DM Sans',sans-serif;">✦ &nbsp;Valuation Complete</span>
+            <div class="complete-banner">
+                <span class="complete-line"></span>
+                <span class="complete-icon">◈</span>
+                <span class="complete-text">Valuation Complete</span>
+                <span class="complete-icon">◈</span>
+                <span class="complete-line"></span>
             </div>
             """, unsafe_allow_html=True)
+
+            # DOWNLOAD + SHARE
             result_df = pd.DataFrame({
-                "Brand": [brand or "—"],
-                "Model": [car_model or "—"],
-                "Year": [year],
-                "KM Driven": [km_driven],
-                "Fuel": [fuel_type],
-                "Transmission": [transmission],
-                "Seller Type": [seller_type],
-                "Owner": [owner],
-                "Estimated Price (₹)": [indian_format(predicted_price)],
+                "Brand":[brand or "—"],"Model":[car_model or "—"],"Year":[year],
+                "KM Driven":[km_driven],"Fuel":[fuel_type],"Transmission":[transmission],
+                "Seller Type":[seller_type],"Owner":[owner],"Estimated Price (₹)":[indian_format(predicted_price)],
             })
             col_dl, col_share = st.columns([1, 2])
             with col_dl:
-                st.download_button(
-                    "↓ Download Report",
-                    result_df.to_csv(index=False),
-                    "carval_report.csv",
-                    mime="text/csv"
-                )
+                st.download_button("↓  Download Report", result_df.to_csv(index=False), "carval_report.csv", mime="text/csv")
             with col_share:
-                share_text = (
-                    f"{brand or ''} {car_model or ''} ({year}, {km_driven:,} km, {fuel_type}) "
-                    f"— Estimated at ₹{indian_format(predicted_price)} by CarVal AI"
-                )
-                st.text_area("Share", value=share_text, height=70, label_visibility="collapsed")
+                st.text_area("share", value=f"{brand or ''} {car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal AI", height=72)
 
         except Exception as e:
             st.error(f"Prediction error: {e}")
@@ -665,21 +451,22 @@ if predict_clicked:
 #  FOOTER
 # ─────────────────────────────────────────────
 st.markdown("""
-<div class="footer-wrap">
-    <div class="footer-glow"></div>
-    <span class="footer-logo">Car<em>Val</em></span>
-    <span class="footer-tagline">AI-Powered Car Valuation · Indian Market</span>
-    <div class="footer-divider">
-        <span class="footer-divider-line"></span>
-        <span class="footer-diamond">◆</span>
-        <span class="footer-divider-line"></span>
+<div class="footer-section">
+    <div class="footer-top-border"></div>
+    <span class="footer-wordmark">Car<em>Val</em></span>
+    <div class="footer-mid">
+        <span class="footer-brand-sm">Car<em>Val</em></span>
+        <span class="footer-sep-sm">◆</span>
+        <span class="footer-tag">Intelligent Valuation</span>
     </div>
     <div class="footer-meta">
-        <span class="footer-meta-item">Built with Machine Learning</span>
-        <span class="footer-dot"></span>
-        <span class="footer-author">Crafted by <strong>Sudharshan</strong></span>
-        <span class="footer-dot"></span>
-        <span class="footer-meta-item">© 2025</span>
+        <span>Built with Machine Learning</span>
+        <span class="dot">·</span>
+        <span>Indian Used Car Market</span>
+        <span class="dot">·</span>
+        <span>Crafted by <span class="name">Sudharshan</span></span>
+        <span class="dot">·</span>
+        <span>© 2025</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
