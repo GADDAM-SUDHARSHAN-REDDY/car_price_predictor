@@ -355,7 +355,8 @@ def indian_format(n):
         groups.append(rest)
     return ','.join(reversed(groups)) + ',' + last3
 
-
+model, columns = load_model()
+brand_model_map = load_brand_model_map()
 
 # ─────────────────────────────────────────────
 #  HERO
