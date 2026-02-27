@@ -291,12 +291,27 @@ html, body, [data-testid="stAppViewContainer"] {
 /* ── Footer ── */
 .footer {
     text-align: center;
-    padding: 3rem 0 1rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    padding: 2.5rem 0 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #d4af37;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.6rem;
+}
+.footer-line {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: #2e2b28;
 }
-.footer span { color: #d4af37; }
+.footer-line .dot { color: #3a3530; margin: 0 0.5rem; }
+.footer-line .highlight { color: #d4af37; font-weight: 500; }
 
 /* ── Columns gap ── */
 [data-testid="column"] { padding: 0 0.4rem !important; }
@@ -324,8 +339,23 @@ def load_brand_model_map():
     except FileNotFoundError:
         return None
 
-model, columns = load_model()
-brand_model_map = load_brand_model_map()
+def indian_format(n):
+    """Format number in Indian style: 1,23,45,678"""
+    n = int(n)
+    s = str(n)
+    if len(s) <= 3:
+        return s
+    last3 = s[-3:]
+    rest = s[:-3]
+    groups = []
+    while len(rest) > 2:
+        groups.append(rest[-2:])
+        rest = rest[:-2]
+    if rest:
+        groups.append(rest)
+    return ','.join(reversed(groups)) + ',' + last3
+
+
 
 # ─────────────────────────────────────────────
 #  HERO
@@ -418,7 +448,7 @@ if predict_clicked:
             predicted_price = max(predicted_price, 0)  # no negative prices
 
             # ── Result Card ──
-            formatted = f"₹{predicted_price:,.0f}"
+            formatted = f"₹{indian_format(predicted_price)}"
             lakh_str = f"{predicted_price/100000:.2f} Lakh"
             st.markdown(f"""
             <div class="result-card">
@@ -558,7 +588,7 @@ if predict_clicked:
                 "Transmission": [transmission],
                 "Seller Type": [seller_type],
                 "Owner": [owner],
-                "Estimated Price (₹)": [round(predicted_price)],
+                "Estimated Price (₹)": [indian_format(predicted_price)],
             })
             col_dl, col_share = st.columns([1, 2])
             with col_dl:
@@ -571,7 +601,7 @@ if predict_clicked:
             with col_share:
                 share_text = (
                     f"{brand or ''} {car_model or ''} ({year}, {km_driven:,} km, {fuel_type}) "
-                    f"— Estimated at ₹{predicted_price:,.0f} by CarVal AI"
+                    f"— Estimated at ₹{indian_format(predicted_price)} by CarVal AI"
                 )
                 st.text_area("Share", value=share_text, height=70, label_visibility="collapsed")
 
@@ -583,6 +613,13 @@ if predict_clicked:
 # ─────────────────────────────────────────────
 st.markdown("""
 <div class="footer">
-    <span>CarVal</span> · AI Car Price Predictor &nbsp;·&nbsp; Made by <span>Sudharshan</span> &nbsp;·&nbsp; © 2025
+    <span class="footer-brand">CarVal</span>
+    <div class="footer-line">
+        AI Car Price Predictor
+        <span class="dot">·</span>
+        Made by <span class="highlight">Sudharshan</span>
+        <span class="dot">·</span>
+        © 2025
+    </div>
 </div>
 """, unsafe_allow_html=True)
