@@ -289,29 +289,81 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 /* ── Footer ── */
-.footer {
+.footer-wrap {
+    margin-top: 4rem;
+    padding: 2.5rem 0 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
     text-align: center;
-    padding: 2.5rem 0 1.5rem;
-    margin-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    position: relative;
 }
-.footer-brand {
+.footer-glow {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+.footer-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #d4af37;
-    letter-spacing: 0.1em;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #f0ebe3;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
     display: block;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.25rem;
 }
-.footer-line {
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
+.footer-logo em {
+    color: #d4af37;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+}
+.footer-tagline {
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
     text-transform: uppercase;
     color: #2e2b28;
+    margin-bottom: 1.6rem;
+    display: block;
 }
-.footer-line .dot { color: #3a3530; margin: 0 0.5rem; }
-.footer-line .highlight { color: #d4af37; font-weight: 500; }
+.footer-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+}
+.footer-divider-line {
+    width: 36px;
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    display: inline-block;
+}
+.footer-diamond { color: #d4af37; font-size: 0.45rem; opacity: 0.5; }
+.footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}
+.footer-meta-item {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #2a2520;
+}
+.footer-dot {
+    width: 2px; height: 2px;
+    background: #2a2520;
+    border-radius: 50%;
+    display: inline-block;
+}
+.footer-author { color: #2a2520; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; }
+.footer-author strong { color: #c8a84b; font-weight: 500; letter-spacing: 0.22em; }
 
 /* ── Columns gap ── */
 [data-testid="column"] { padding: 0 0.4rem !important; }
@@ -613,14 +665,21 @@ if predict_clicked:
 #  FOOTER
 # ─────────────────────────────────────────────
 st.markdown("""
-<div class="footer">
-    <span class="footer-brand">CarVal</span>
-    <div class="footer-line">
-        AI Car Price Predictor
-        <span class="dot">·</span>
-        Made by <span class="highlight">Sudharshan</span>
-        <span class="dot">·</span>
-        © 2025
+<div class="footer-wrap">
+    <div class="footer-glow"></div>
+    <span class="footer-logo">Car<em>Val</em></span>
+    <span class="footer-tagline">AI-Powered Car Valuation · Indian Market</span>
+    <div class="footer-divider">
+        <span class="footer-divider-line"></span>
+        <span class="footer-diamond">◆</span>
+        <span class="footer-divider-line"></span>
+    </div>
+    <div class="footer-meta">
+        <span class="footer-meta-item">Built with Machine Learning</span>
+        <span class="footer-dot"></span>
+        <span class="footer-author">Crafted by <strong>Sudharshan</strong></span>
+        <span class="footer-dot"></span>
+        <span class="footer-meta-item">© 2025</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
