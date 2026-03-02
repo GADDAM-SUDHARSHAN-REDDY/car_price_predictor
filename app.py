@@ -160,16 +160,16 @@ st.markdown(
 /* ── FOOTER ── */
 .footer-section { margin-top:5rem; padding-top:3rem; position:relative; text-align:center; }
 .footer-top-border { position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:1px; background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.05) 25%,rgba(201,168,76,0.5) 50%,rgba(255,255,255,0.05) 75%,transparent 100%); }
-.footer-wordmark { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:300; letter-spacing:0.35em; text-transform:uppercase; color:rgba(242,236,224,0.08); display:block; margin-bottom:1.5rem; line-height:1; user-select:none; }
-.footer-wordmark em { font-style:italic; color:rgba(201,168,76,0.15); }
-.footer-mid { display:flex; align-items:center; justify-content:center; gap:0.8rem; margin-bottom:0.9rem; }
-.footer-brand-sm { font-family:'Playfair Display',serif; font-size:0.9rem; font-weight:400; color:rgba(201,168,76,0.75); letter-spacing:0.1em; }
-.footer-brand-sm em { font-style:italic; color:rgba(201,168,76,0.9); }
-.footer-tag { font-family:'Outfit',sans-serif; font-size:0.56rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(201,168,76,0.45); }
-.footer-sep-sm { color:rgba(255,255,255,0.25); font-size:0.4rem; }
-.footer-meta { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:300; letter-spacing:0.18em; text-transform:uppercase; color:#6a5e52; display:flex; align-items:center; justify-content:center; gap:0.9rem; flex-wrap:wrap; }
+.footer-wordmark { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:300; letter-spacing:0.35em; text-transform:uppercase; color:rgba(242,236,224,0.12); display:block; margin-bottom:1.5rem; line-height:1; user-select:none; }
+.footer-wordmark em { font-style:italic; color:rgba(201,168,76,0.22); }
+.footer-mid { display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:1.2rem; }
+.footer-brand-sm { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:400; color:rgba(201,168,76,0.95); letter-spacing:0.1em; }
+.footer-brand-sm em { font-style:italic; color:#c9a84c; }
+.footer-tag { font-family:'Outfit',sans-serif; font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(201,168,76,0.7); }
+.footer-sep-sm { color:rgba(201,168,76,0.5); font-size:0.5rem; }
+.footer-meta { font-family:'Outfit',sans-serif; font-size:0.68rem; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; color:#8a7a6a; display:flex; align-items:center; justify-content:center; gap:0.9rem; flex-wrap:wrap; }
 .footer-meta .name { color:#c9a84c; font-weight:500; letter-spacing:0.22em; }
-.footer-meta .dot { color:#3a3028; opacity:1; }
+.footer-meta .dot { color:#5a4a3a; opacity:1; }
 
 /* ── MISC ── */
 [data-testid="column"] { padding:0 0.35rem !important; }
