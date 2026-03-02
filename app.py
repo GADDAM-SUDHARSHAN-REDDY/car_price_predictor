@@ -389,6 +389,162 @@ section[data-testid="stSidebar"] { display: none !important; }
 ::-webkit-scrollbar-track { background:#080810; }
 ::-webkit-scrollbar-thumb { background:#1a1a28; border-radius:2px; }
 [data-testid="stSpinner"] p { color:var(--gold) !important; font-family:'Outfit',sans-serif !important; font-size:0.78rem !important; letter-spacing:0.1em !important; }
+
+/* ════════════════════════════════════════
+   MOBILE RESPONSIVE — 768px and below
+   ════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* Container padding */
+    [data-testid="stMainBlockContainer"] {
+        padding: 0 1.2rem !important;
+    }
+    .main .block-container {
+        padding-left: 1.2rem !important;
+        padding-right: 1.2rem !important;
+    }
+
+    /* Navbar */
+    .nav-bar {
+        padding: 1rem 1.2rem !important;
+    }
+    .nav-logo {
+        font-size: 1.1rem !important;
+    }
+
+    /* Hero */
+    .hero {
+        padding: 3rem 0 0 !important;
+    }
+    .hero-content {
+        padding-left: 1.2rem !important;
+        padding-right: 1.2rem !important;
+        padding-bottom: 4rem !important;
+    }
+    .hero-h1 {
+        font-size: clamp(2rem, 10vw, 3rem) !important;
+    }
+    .hero-sub {
+        font-size: 0.78rem !important;
+        letter-spacing: 0.04em !important;
+    }
+    .hero-eyebrow {
+        font-size: 0.52rem !important;
+        letter-spacing: 0.25em !important;
+    }
+
+    /* DRL headlights — smaller on mobile */
+    .hero-drl-left {
+        width: 100px !important;
+        left: 1.5% !important;
+        bottom: 22px !important;
+    }
+    .hero-drl-right {
+        width: 100px !important;
+        right: 1.5% !important;
+        bottom: 22px !important;
+    }
+    .hero-orb-left {
+        width: 130px !important;
+        left: 1% !important;
+    }
+    .hero-orb-right {
+        width: 130px !important;
+        right: 1% !important;
+    }
+
+    /* Stats strip — stack on very small screens */
+    .stats-strip {
+        grid-template-columns: repeat(3, 1fr) !important;
+        margin: 1.5rem 0 2rem !important;
+    }
+    .stat-item {
+        padding: 1rem 0.5rem !important;
+    }
+    .stat-num {
+        font-size: 1.4rem !important;
+    }
+    .stat-label {
+        font-size: 0.48rem !important;
+        letter-spacing: 0.1em !important;
+    }
+
+    /* Form */
+    .step-badge {
+        flex-wrap: wrap !important;
+    }
+
+    /* Result card */
+    .result-inner {
+        padding: 2rem 1.2rem 1.8rem !important;
+    }
+    .price-display {
+        font-size: clamp(2.2rem, 10vw, 3.5rem) !important;
+    }
+    .rupee-sym {
+        font-size: clamp(1.2rem, 5vw, 1.8rem) !important;
+    }
+    .pills-row {
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+    }
+
+    /* Footer */
+    .footer-wordmark {
+        font-size: clamp(1.6rem, 8vw, 3rem) !important;
+        letter-spacing: 0.25em !important;
+    }
+    .footer-meta {
+        font-size: 0.58rem !important;
+        gap: 0.5rem !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        padding: 0 1rem !important;
+    }
+    .footer-brand-sm {
+        font-size: 1rem !important;
+    }
+    .footer-tag {
+        font-size: 0.55rem !important;
+    }
+}
+
+/* ════════════════════════════════════════
+   SMALL MOBILE — 480px and below
+   ════════════════════════════════════════ */
+@media (max-width: 480px) {
+
+    .hero-h1 {
+        font-size: clamp(1.8rem, 9vw, 2.5rem) !important;
+    }
+
+    /* Stack stats on tiny screens */
+    .stats-strip {
+        grid-template-columns: 1fr !important;
+    }
+    .stat-item {
+        border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+    }
+
+    /* Shorter DRL bars */
+    .hero-drl-left, .hero-drl-right {
+        width: 70px !important;
+    }
+
+    .footer-wordmark {
+        font-size: clamp(1.4rem, 7vw, 2rem) !important;
+        letter-spacing: 0.2em !important;
+    }
+
+    .footer-meta {
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+        align-items: center !important;
+    }
+    .footer-meta .dot {
+        display: none !important;
+    }
+}
 </style>
 """,
     unsafe_allow_html=True,
