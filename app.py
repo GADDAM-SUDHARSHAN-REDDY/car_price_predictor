@@ -68,155 +68,142 @@ st.markdown(
 
 /* ── HERO ── */
 .hero {
-    padding: 6rem 0 4rem;
+    padding: 6rem 0 0rem;
     text-align: center;
     position: relative;
     overflow: hidden;
     isolation: isolate;
 }
 
-/* Soft ambient gold wash behind text */
+/* Soft ambient glow at top */
 .hero::before {
     content: '';
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 700px; height: 300px;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 300px;
     background: radial-gradient(ellipse,
-        rgba(201,168,76,0.07) 0%,
-        rgba(201,168,76,0.03) 40%,
-        transparent 70%);
+        rgba(201,168,76,0.05) 0%,
+        transparent 65%);
     pointer-events: none;
     z-index: 0;
 }
 
-/* Left headlight — glows FROM behind the text, low center-left */
-.hero::after {
-    content: '';
-    position: absolute;
-    top: 55%; left: 22%;
-    width: 180px; height: 70px;
-    background: radial-gradient(ellipse,
-        rgba(255,248,200,0.55) 0%,
-        rgba(226,192,106,0.3)  30%,
-        rgba(201,168,76,0.12)  55%,
-        transparent            80%);
-    border-radius: 50%;
-    filter: blur(18px);
-    pointer-events: none;
-    z-index: 0;
-    animation: breathe 3.5s ease-in-out infinite;
-}
+/* No ::after beam — clean */
+.hero::after { display: none; }
 
-/* Right headlight — mirror */
-.hero-beam-right {
-    position: absolute;
-    top: 55%; right: 22%;
-    width: 180px; height: 70px;
-    background: radial-gradient(ellipse,
-        rgba(255,248,200,0.55) 0%,
-        rgba(226,192,106,0.3)  30%,
-        rgba(201,168,76,0.12)  55%,
-        transparent            80%);
-    border-radius: 50%;
-    filter: blur(18px);
-    pointer-events: none;
-    z-index: 0;
-    animation: breathe 3.5s ease-in-out infinite 0.7s;
-}
+/* Right beam element — hidden */
+.hero-beam-right { display: none; }
 
-/* DRL hot core left */
+/* ── Headlight left orb — sits BELOW text, above stats ── */
 .hero-orb-left {
     position: absolute;
-    top: 56%; left: calc(22% + 40px);
-    width: 70px; height: 22px;
+    bottom: -30px;
+    left: 18%;
+    width: 160px;
+    height: 55px;
     background: radial-gradient(ellipse,
-        rgba(255,255,230,0.95) 0%,
-        rgba(255,240,160,0.6)  45%,
-        transparent            80%);
+        rgba(255,248,200,0.45) 0%,
+        rgba(226,192,106,0.22) 35%,
+        rgba(201,168,76,0.08)  60%,
+        transparent            85%);
     border-radius: 50%;
-    filter: blur(6px);
+    filter: blur(20px);
     pointer-events: none;
-    z-index: 1;
-    animation: breathe 3.5s ease-in-out infinite;
+    z-index: 2;
+    animation: breathe 4s ease-in-out infinite;
 }
 
-/* DRL hot core right */
+/* ── Headlight right orb ── */
 .hero-orb-right {
     position: absolute;
-    top: 56%; right: calc(22% + 40px);
-    width: 70px; height: 22px;
+    bottom: -30px;
+    right: 18%;
+    width: 160px;
+    height: 55px;
     background: radial-gradient(ellipse,
-        rgba(255,255,230,0.95) 0%,
-        rgba(255,240,160,0.6)  45%,
-        transparent            80%);
+        rgba(255,248,200,0.45) 0%,
+        rgba(226,192,106,0.22) 35%,
+        rgba(201,168,76,0.08)  60%,
+        transparent            85%);
     border-radius: 50%;
-    filter: blur(6px);
+    filter: blur(20px);
     pointer-events: none;
-    z-index: 1;
-    animation: breathe 3.5s ease-in-out infinite 0.7s;
+    z-index: 2;
+    animation: breathe 4s ease-in-out infinite 0.8s;
 }
 
-/* Left beam ray — sweeping upward from headlight */
+/* ── DRL hot core left ── */
 .hero-drl-left {
     position: absolute;
-    top: 0; left: 22%;
-    width: 20%;
-    height: 58%;
-    background: linear-gradient(to top,
-        rgba(201,168,76,0.06) 0%,
-        rgba(201,168,76,0.02) 50%,
-        transparent           100%);
-    clip-path: polygon(40% 100%, 60% 100%, 100% 0%, 0% 0%);
+    bottom: -18px;
+    left: calc(18% + 42px);
+    width: 65px;
+    height: 16px;
+    background: radial-gradient(ellipse,
+        rgba(255,255,230,0.98) 0%,
+        rgba(255,240,160,0.65) 45%,
+        transparent            85%);
+    border-radius: 50%;
+    filter: blur(4px);
     pointer-events: none;
-    z-index: 0;
-    filter: blur(6px);
+    z-index: 3;
+    animation: breathe 4s ease-in-out infinite;
 }
 
-/* Right beam ray */
+/* ── DRL hot core right ── */
 .hero-drl-right {
     position: absolute;
-    top: 0; right: 22%;
-    width: 20%;
-    height: 58%;
-    background: linear-gradient(to top,
-        rgba(201,168,76,0.06) 0%,
-        rgba(201,168,76,0.02) 50%,
-        transparent           100%);
-    clip-path: polygon(40% 100%, 60% 100%, 100% 0%, 0% 0%);
+    bottom: -18px;
+    right: calc(18% + 42px);
+    width: 65px;
+    height: 16px;
+    background: radial-gradient(ellipse,
+        rgba(255,255,230,0.98) 0%,
+        rgba(255,240,160,0.65) 45%,
+        transparent            85%);
+    border-radius: 50%;
+    filter: blur(4px);
     pointer-events: none;
-    z-index: 0;
-    filter: blur(6px);
+    z-index: 3;
+    animation: breathe 4s ease-in-out infinite 0.8s;
 }
 
-/* Ground reflection */
+/* ── Upward light rays from headlights ── */
 .hero-ground {
     position: absolute;
-    bottom: 0; left: 50%;
+    bottom: -30px;
+    left: 50%;
     transform: translateX(-50%);
-    width: 100%; height: 60px;
-    background: linear-gradient(0deg,
-        rgba(201,168,76,0.04) 0%,
-        transparent           100%);
+    width: 100%;
+    height: 200px;
+    background:
+        radial-gradient(ellipse 25% 60% at 22% 100%,
+            rgba(201,168,76,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 25% 60% at 78% 100%,
+            rgba(201,168,76,0.06) 0%, transparent 70%);
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
 .hero-center-glow { display: none; }
 
-/* Content always on top */
+/* Content above effects */
 .hero-content {
     position: relative;
     z-index: 4;
+    padding-bottom: 5rem;
 }
 
 @keyframes breathe {
-    0%, 100% { opacity: 1;    filter: blur(18px);  }
-    50%       { opacity: 0.7;  filter: blur(22px);  }
+    0%, 100% { opacity: 1;   filter: blur(20px); }
+    50%       { opacity: 0.65; filter: blur(25px); }
 }
 
 @keyframes pulse-orb {
     0%, 100% { opacity: 1; }
+    50%       { opacity: 0.75; }
+}
     50%       { opacity: 0.75; }
 }
     50%       { opacity: 0.75; }
@@ -318,9 +305,9 @@ st.markdown(
 .footer-top-border { position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:1px; background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.05) 25%,rgba(201,168,76,0.7) 50%,rgba(255,255,255,0.05) 75%,transparent 100%); }
 .footer-wordmark {
     font-family:'Playfair Display',serif;
-    font-size:clamp(3.5rem,8vw,6rem);
+    font-size:clamp(2rem,5vw,4.5rem);
     font-weight:400;
-    letter-spacing:0.55em;
+    letter-spacing:0.4em;
     text-transform:uppercase;
     display:block;
     margin-bottom:2rem;
@@ -868,7 +855,7 @@ if predict_clicked:
             with col_share:
                 st.text_area(
                     "share",
-                    value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal AI",
+                    value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal",
                     height=72,
                 )
 
