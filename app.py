@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 st.set_page_config(
     page_title="CarVal · Intelligent Car Valuation",
     page_icon="🚗",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="collapsed",
 )
 
@@ -42,14 +42,15 @@ st.markdown(
 
 [data-testid="stAppViewContainer"] {
     background:
-        radial-gradient(ellipse 60% 35% at 50% 0%,   rgba(201,168,76,0.07) 0%, transparent 65%),
-        radial-gradient(ellipse 35% 25% at 15% 30%,  rgba(201,168,76,0.03) 0%, transparent 60%),
-        radial-gradient(ellipse 35% 25% at 85% 30%,  rgba(201,168,76,0.03) 0%, transparent 60%),
-        radial-gradient(ellipse 80% 40% at 50% 100%, rgba(201,168,76,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% -5%,  rgba(201,168,76,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 25% 35% at 2%  35%,  rgba(201,168,76,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 25% 35% at 98% 35%,  rgba(201,168,76,0.04) 0%, transparent 55%),
         #080810 !important;
     min-height: 100vh;
+    width: 100vw;
 }
-[data-testid="stMain"] { background: transparent !important; }
+[data-testid="stMain"] { background: transparent !important; padding: 0 !important; }
+[data-testid="stMainBlockContainer"] { max-width: 1100px !important; padding: 0 2rem !important; margin: 0 auto !important; }
 #MainMenu, footer, header, [data-testid="stToolbar"],
 [data-testid="stDecoration"], [data-testid="stStatusWidget"],
 [data-testid="stSidebar"] { display: none !important; }
@@ -68,140 +69,157 @@ st.markdown(
 
 /* ── HERO ── */
 .hero {
-    padding: 6rem 0 0rem;
+    padding: 5rem 0 0;
     text-align: center;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     isolation: isolate;
+    width: 100%;
 }
 
-/* Soft ambient glow at top */
+/* Soft top ambient */
 .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 50%;
+    top: -20px; left: 50%;
     transform: translateX(-50%);
-    width: 800px; height: 300px;
+    width: 900px; height: 280px;
     background: radial-gradient(ellipse,
-        rgba(201,168,76,0.05) 0%,
-        transparent 65%);
+        rgba(201,168,76,0.06) 0%, transparent 65%);
     pointer-events: none;
     z-index: 0;
 }
-
-/* No ::after beam — clean */
 .hero::after { display: none; }
-
-/* Right beam element — hidden */
 .hero-beam-right { display: none; }
 
-/* ── Headlight left orb — sits BELOW text, above stats ── */
+/* ════════════════════════════════════
+   BMW-STYLE HEADLIGHT SYSTEM
+   Wide apart, at screen edges
+   ════════════════════════════════════ */
+
+/* LEFT HEADLIGHT — outer glow halo */
 .hero-orb-left {
     position: absolute;
-    bottom: -30px;
-    left: 18%;
-    width: 160px;
-    height: 55px;
+    bottom: 10px;
+    left: 3%;
+    width: 220px; height: 55px;
     background: radial-gradient(ellipse,
-        rgba(255,248,200,0.45) 0%,
-        rgba(226,192,106,0.22) 35%,
-        rgba(201,168,76,0.08)  60%,
+        rgba(255,245,190,0.35) 0%,
+        rgba(226,192,106,0.18) 40%,
+        rgba(201,168,76,0.06)  65%,
         transparent            85%);
     border-radius: 50%;
-    filter: blur(20px);
+    filter: blur(12px);
     pointer-events: none;
     z-index: 2;
     animation: breathe 4s ease-in-out infinite;
 }
 
-/* ── Headlight right orb ── */
+/* RIGHT HEADLIGHT — outer glow halo */
 .hero-orb-right {
     position: absolute;
-    bottom: -30px;
-    right: 18%;
-    width: 160px;
-    height: 55px;
+    bottom: 10px;
+    right: 3%;
+    width: 220px; height: 55px;
     background: radial-gradient(ellipse,
-        rgba(255,248,200,0.45) 0%,
-        rgba(226,192,106,0.22) 35%,
-        rgba(201,168,76,0.08)  60%,
+        rgba(255,245,190,0.35) 0%,
+        rgba(226,192,106,0.18) 40%,
+        rgba(201,168,76,0.06)  65%,
         transparent            85%);
     border-radius: 50%;
-    filter: blur(20px);
+    filter: blur(12px);
     pointer-events: none;
     z-index: 2;
     animation: breathe 4s ease-in-out infinite 0.8s;
 }
 
-/* ── DRL hot core left ── */
+/* LEFT DRL — angular BMW-style bar */
 .hero-drl-left {
     position: absolute;
-    bottom: -18px;
-    left: calc(18% + 42px);
-    width: 65px;
-    height: 16px;
-    background: radial-gradient(ellipse,
-        rgba(255,255,230,0.98) 0%,
-        rgba(255,240,160,0.65) 45%,
-        transparent            85%);
-    border-radius: 50%;
-    filter: blur(4px);
+    bottom: 28px;
+    left: 3.5%;
+    width: 160px; height: 6px;
+    background: linear-gradient(90deg,
+        transparent             0%,
+        rgba(201,168,76,0.3)   10%,
+        rgba(240,210,120,0.85) 35%,
+        rgba(255,248,200,0.95) 50%,
+        rgba(240,210,120,0.85) 65%,
+        rgba(201,168,76,0.3)   88%,
+        transparent            100%);
+    border-radius: 3px;
+    filter: blur(1.5px);
     pointer-events: none;
-    z-index: 3;
-    animation: breathe 4s ease-in-out infinite;
+    z-index: 4;
+    animation: drl-pulse 4s ease-in-out infinite;
 }
 
-/* ── DRL hot core right ── */
+/* RIGHT DRL — mirror */
 .hero-drl-right {
     position: absolute;
-    bottom: -18px;
-    right: calc(18% + 42px);
-    width: 65px;
-    height: 16px;
-    background: radial-gradient(ellipse,
-        rgba(255,255,230,0.98) 0%,
-        rgba(255,240,160,0.65) 45%,
-        transparent            85%);
-    border-radius: 50%;
-    filter: blur(4px);
+    bottom: 28px;
+    right: 3.5%;
+    width: 160px; height: 6px;
+    background: linear-gradient(90deg,
+        transparent             0%,
+        rgba(201,168,76,0.3)   10%,
+        rgba(240,210,120,0.85) 35%,
+        rgba(255,248,200,0.95) 50%,
+        rgba(240,210,120,0.85) 65%,
+        rgba(201,168,76,0.3)   88%,
+        transparent            100%);
+    border-radius: 3px;
+    filter: blur(1.5px);
     pointer-events: none;
-    z-index: 3;
-    animation: breathe 4s ease-in-out infinite 0.8s;
+    z-index: 4;
+    animation: drl-pulse 4s ease-in-out infinite 0.8s;
 }
 
-/* ── Upward light rays from headlights ── */
+/* LEFT beam sweep — wide cone upward */
 .hero-ground {
     position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 200px;
+    bottom: 0; left: 0;
+    width: 100%; height: 100%;
     background:
-        radial-gradient(ellipse 25% 60% at 22% 100%,
-            rgba(201,168,76,0.06) 0%, transparent 70%),
-        radial-gradient(ellipse 25% 60% at 78% 100%,
-            rgba(201,168,76,0.06) 0%, transparent 70%);
+        conic-gradient(from -15deg at 6% 100%,
+            transparent 0deg,
+            rgba(201,168,76,0.02) 12deg,
+            rgba(201,168,76,0.045) 22deg,
+            rgba(201,168,76,0.02) 32deg,
+            transparent 44deg),
+        conic-gradient(from 151deg at 94% 100%,
+            transparent 0deg,
+            rgba(201,168,76,0.02) 12deg,
+            rgba(201,168,76,0.045) 22deg,
+            rgba(201,168,76,0.02) 32deg,
+            transparent 44deg);
     pointer-events: none;
     z-index: 1;
 }
 
 .hero-center-glow { display: none; }
 
-/* Content above effects */
+/* Content above all effects */
 .hero-content {
     position: relative;
-    z-index: 4;
-    padding-bottom: 5rem;
+    z-index: 5;
+    padding-bottom: 4.5rem;
 }
 
 @keyframes breathe {
-    0%, 100% { opacity: 1;   filter: blur(20px); }
-    50%       { opacity: 0.65; filter: blur(25px); }
+    0%, 100% { opacity: 1;    filter: blur(12px); }
+    50%       { opacity: 0.6;  filter: blur(16px); }
+}
+
+@keyframes drl-pulse {
+    0%, 100% { opacity: 1;    filter: blur(1.5px); }
+    50%       { opacity: 0.75; filter: blur(2.5px); }
 }
 
 @keyframes pulse-orb {
     0%, 100% { opacity: 1; }
+    50%       { opacity: 0.75; }
+}
     50%       { opacity: 0.75; }
 }
     50%       { opacity: 0.75; }
@@ -221,8 +239,8 @@ st.markdown(
 .hero-orn-d { font-size:0.38rem; color:var(--gold); opacity:0.6; }
 
 /* ── STATS STRIP ── */
-.stats-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.05); border-radius:14px; overflow:hidden; margin:2.5rem 0 3rem; }
-.stat-item { background:var(--surface-1); padding:1.2rem 1rem; text-align:center; }
+.stats-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:16px; overflow:hidden; margin:2.5rem 0 3rem; }
+.stat-item { background:var(--surface-1); padding:1.8rem 1rem; text-align:center; }
 .stat-num { font-family:'Playfair Display',serif; font-size:1.55rem; font-weight:400; color:var(--gold); letter-spacing:-0.02em; display:block; line-height:1; margin-bottom:0.3rem; }
 .stat-label { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-3); }
 
@@ -301,7 +319,7 @@ st.markdown(
 [data-testid="stTextArea"] label { display:none !important; }
 
 /* ── FOOTER ── */
-.footer-section { margin-top:5rem; padding-top:4rem; padding-bottom:2rem; position:relative; text-align:center; background:linear-gradient(180deg, transparent 0%, rgba(201,168,76,0.02) 50%, transparent 100%); border-radius:20px; }
+.footer-section { margin-top:5rem; padding-top:4rem; padding-bottom:2rem; position:relative; text-align:center; width:100%; }
 .footer-top-border { position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:1px; background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.05) 25%,rgba(201,168,76,0.7) 50%,rgba(255,255,255,0.05) 75%,transparent 100%); }
 .footer-wordmark {
     font-family:'Playfair Display',serif;
