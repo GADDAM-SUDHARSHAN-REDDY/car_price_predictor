@@ -50,11 +50,22 @@ st.markdown(
     width: 100vw;
 }
 [data-testid="stMain"] { background: transparent !important; padding: 0 !important; }
-[data-testid="stMainBlockContainer"] { max-width: 1100px !important; padding: 0 2rem !important; margin: 0 auto !important; }
+[data-testid="stMainBlockContainer"] { max-width: 1200px !important; padding: 0 4rem !important; margin: 0 auto !important; width: 100% !important; }
+/* Force full width on ALL streamlit containers */
+section[data-testid="stSidebar"] { display: none !important; }
+[data-testid="stAppViewContainer"] > section { padding: 0 !important; }
+.main .block-container { max-width: 1200px !important; padding-left: 4rem !important; padding-right: 4rem !important; }
+#root > div { width: 100% !important; }
+
 #MainMenu, footer, header, [data-testid="stToolbar"],
 [data-testid="stDecoration"], [data-testid="stStatusWidget"],
 [data-testid="stSidebar"] { display: none !important; }
-.block-container { max-width: 800px !important; padding: 0 2rem 6rem !important; }
+.block-container {
+    max-width: 1200px !important;
+    padding: 0 4rem 6rem !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+}
 
 /* ── NAVBAR ── */
 .navbar {
@@ -74,7 +85,9 @@ st.markdown(
     position: relative;
     overflow: visible;
     isolation: isolate;
-    width: 100%;
+    /* Break out of container — use full viewport */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
 }
 
 /* Soft top ambient */
@@ -83,7 +96,7 @@ st.markdown(
     position: absolute;
     top: -20px; left: 50%;
     transform: translateX(-50%);
-    width: 900px; height: 280px;
+    width: 900px; height: 300px;
     background: radial-gradient(ellipse,
         rgba(201,168,76,0.06) 0%, transparent 65%);
     pointer-events: none;
@@ -92,63 +105,63 @@ st.markdown(
 .hero::after { display: none; }
 .hero-beam-right { display: none; }
 
-/* ════════════════════════════════════
-   BMW-STYLE HEADLIGHT SYSTEM
-   Wide apart, at screen edges
-   ════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   BMW M3 STYLE — GOLD DRL BARS AT SCREEN EDGES
+   ════════════════════════════════════════════ */
 
-/* LEFT HEADLIGHT — outer glow halo */
+/* LEFT outer halo */
 .hero-orb-left {
     position: absolute;
-    bottom: 10px;
-    left: 3%;
-    width: 220px; height: 55px;
+    bottom: 8px;
+    left: 2%;
+    width: 260px; height: 65px;
     background: radial-gradient(ellipse,
-        rgba(255,245,190,0.35) 0%,
-        rgba(226,192,106,0.18) 40%,
-        rgba(201,168,76,0.06)  65%,
+        rgba(255,245,190,0.28) 0%,
+        rgba(226,192,106,0.14) 40%,
+        rgba(201,168,76,0.05)  65%,
         transparent            85%);
     border-radius: 50%;
-    filter: blur(12px);
+    filter: blur(14px);
     pointer-events: none;
     z-index: 2;
     animation: breathe 4s ease-in-out infinite;
 }
 
-/* RIGHT HEADLIGHT — outer glow halo */
+/* RIGHT outer halo */
 .hero-orb-right {
     position: absolute;
-    bottom: 10px;
-    right: 3%;
-    width: 220px; height: 55px;
+    bottom: 8px;
+    right: 2%;
+    width: 260px; height: 65px;
     background: radial-gradient(ellipse,
-        rgba(255,245,190,0.35) 0%,
-        rgba(226,192,106,0.18) 40%,
-        rgba(201,168,76,0.06)  65%,
+        rgba(255,245,190,0.28) 0%,
+        rgba(226,192,106,0.14) 40%,
+        rgba(201,168,76,0.05)  65%,
         transparent            85%);
     border-radius: 50%;
-    filter: blur(12px);
+    filter: blur(14px);
     pointer-events: none;
     z-index: 2;
     animation: breathe 4s ease-in-out infinite 0.8s;
 }
 
-/* LEFT DRL — angular BMW-style bar */
+/* LEFT DRL — BMW angular bar */
 .hero-drl-left {
     position: absolute;
-    bottom: 28px;
-    left: 3.5%;
-    width: 160px; height: 6px;
+    bottom: 32px;
+    left: 2.5%;
+    width: 200px; height: 5px;
     background: linear-gradient(90deg,
-        transparent             0%,
-        rgba(201,168,76,0.3)   10%,
-        rgba(240,210,120,0.85) 35%,
-        rgba(255,248,200,0.95) 50%,
-        rgba(240,210,120,0.85) 65%,
-        rgba(201,168,76,0.3)   88%,
-        transparent            100%);
+        transparent              0%,
+        rgba(201,168,76,0.25)   8%,
+        rgba(240,210,120,0.9)  30%,
+        rgba(255,250,210,1.0)  50%,
+        rgba(240,210,120,0.9)  70%,
+        rgba(201,168,76,0.25)  92%,
+        transparent             100%);
     border-radius: 3px;
-    filter: blur(1.5px);
+    filter: blur(1px);
+    box-shadow: 0 0 12px rgba(255,240,160,0.5), 0 0 30px rgba(201,168,76,0.25);
     pointer-events: none;
     z-index: 4;
     animation: drl-pulse 4s ease-in-out infinite;
@@ -157,67 +170,74 @@ st.markdown(
 /* RIGHT DRL — mirror */
 .hero-drl-right {
     position: absolute;
-    bottom: 28px;
-    right: 3.5%;
-    width: 160px; height: 6px;
+    bottom: 32px;
+    right: 2.5%;
+    width: 200px; height: 5px;
     background: linear-gradient(90deg,
-        transparent             0%,
-        rgba(201,168,76,0.3)   10%,
-        rgba(240,210,120,0.85) 35%,
-        rgba(255,248,200,0.95) 50%,
-        rgba(240,210,120,0.85) 65%,
-        rgba(201,168,76,0.3)   88%,
-        transparent            100%);
+        transparent              0%,
+        rgba(201,168,76,0.25)   8%,
+        rgba(240,210,120,0.9)  30%,
+        rgba(255,250,210,1.0)  50%,
+        rgba(240,210,120,0.9)  70%,
+        rgba(201,168,76,0.25)  92%,
+        transparent             100%);
     border-radius: 3px;
-    filter: blur(1.5px);
+    filter: blur(1px);
+    box-shadow: 0 0 12px rgba(255,240,160,0.5), 0 0 30px rgba(201,168,76,0.25);
     pointer-events: none;
     z-index: 4;
     animation: drl-pulse 4s ease-in-out infinite 0.8s;
 }
 
-/* LEFT beam sweep — wide cone upward */
+/* Light cone beams sweeping upward from each headlight */
 .hero-ground {
     position: absolute;
     bottom: 0; left: 0;
     width: 100%; height: 100%;
     background:
-        conic-gradient(from -15deg at 6% 100%,
+        conic-gradient(from -12deg at 4.5% 100%,
             transparent 0deg,
-            rgba(201,168,76,0.02) 12deg,
-            rgba(201,168,76,0.045) 22deg,
-            rgba(201,168,76,0.02) 32deg,
-            transparent 44deg),
-        conic-gradient(from 151deg at 94% 100%,
+            rgba(201,168,76,0.018) 10deg,
+            rgba(201,168,76,0.04)  20deg,
+            rgba(201,168,76,0.018) 30deg,
+            transparent 42deg),
+        conic-gradient(from 148deg at 95.5% 100%,
             transparent 0deg,
-            rgba(201,168,76,0.02) 12deg,
-            rgba(201,168,76,0.045) 22deg,
-            rgba(201,168,76,0.02) 32deg,
-            transparent 44deg);
+            rgba(201,168,76,0.018) 10deg,
+            rgba(201,168,76,0.04)  20deg,
+            rgba(201,168,76,0.018) 30deg,
+            transparent 42deg);
     pointer-events: none;
     z-index: 1;
 }
 
 .hero-center-glow { display: none; }
 
-/* Content above all effects */
+/* Hero content — constrained within container, centered */
 .hero-content {
     position: relative;
     z-index: 5;
-    padding-bottom: 4.5rem;
+    padding-bottom: 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 4rem;
+    padding-right: 4rem;
 }
 
 @keyframes breathe {
-    0%, 100% { opacity: 1;    filter: blur(12px); }
-    50%       { opacity: 0.6;  filter: blur(16px); }
+    0%, 100% { opacity: 1;    filter: blur(14px); }
+    50%       { opacity: 0.6;  filter: blur(18px); }
 }
 
 @keyframes drl-pulse {
-    0%, 100% { opacity: 1;    filter: blur(1.5px); }
-    50%       { opacity: 0.75; filter: blur(2.5px); }
+    0%, 100% { opacity: 1;    box-shadow: 0 0 12px rgba(255,240,160,0.5), 0 0 30px rgba(201,168,76,0.25); }
+    50%       { opacity: 0.7;  box-shadow: 0 0 8px rgba(255,240,160,0.3),  0 0 20px rgba(201,168,76,0.15); }
 }
 
 @keyframes pulse-orb {
     0%, 100% { opacity: 1; }
+    50%       { opacity: 0.75; }
+}
     50%       { opacity: 0.75; }
 }
     50%       { opacity: 0.75; }
