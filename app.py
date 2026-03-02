@@ -253,7 +253,7 @@ st.markdown("""
         <span class="stat-label">Brands Covered</span>
     </div>
     <div class="stat-item">
-        <span class="stat-num">~85%</span>
+        <span class="stat-num">~80%</span>
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
@@ -324,9 +324,9 @@ if predict_clicked:
         input_data['KM_Driven'] = km_driven
 
         # ── Engineered features (must match Colab training exactly) ──
-        car_age = 2024 - year
+        car_age = max(2025 - year, 0)
         if 'Car_Age'     in input_data: input_data['Car_Age']     = car_age
-        if 'KM_Per_Year' in input_data: input_data['KM_Per_Year'] = km_driven / (car_age + 1)
+        if 'KM_Per_Year' in input_data: input_data['KM_Per_Year'] = km_driven / max(car_age, 1)
         if 'Age_x_KM'    in input_data: input_data['Age_x_KM']    = car_age * km_driven
         if 'Is_New'      in input_data: input_data['Is_New']      = 1 if car_age <= 3 else 0
         if 'Is_High_KM'  in input_data: input_data['Is_High_KM']  = 1 if km_driven > 100000 else 0
@@ -417,9 +417,9 @@ if predict_clicked:
                 row = dict.fromkeys(columns, 0)
                 row['Year']      = year
                 row['KM_Driven'] = k
-                ca = 2024 - year
+                ca = max(2025 - year, 0)
                 if 'Car_Age'          in row: row['Car_Age']          = ca
-                if 'KM_Per_Year'      in row: row['KM_Per_Year']      = k / (ca + 1)
+                if 'KM_Per_Year'      in row: row['KM_Per_Year']      = k / max(ca, 1)
                 if 'Age_x_KM'         in row: row['Age_x_KM']         = ca * k
                 if 'Is_New'           in row: row['Is_New']           = 1 if ca <= 3 else 0
                 if 'Is_High_KM'       in row: row['Is_High_KM']       = 1 if k > 100000 else 0
