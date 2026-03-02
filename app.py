@@ -298,7 +298,7 @@ st.markdown(
         <span class="stat-label">Brands Covered</span>
     </div>
     <div class="stat-item">
-        <span class="stat-num">~80%</span>
+        <span class="stat-num">~85%</span>
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
