@@ -42,8 +42,10 @@ st.markdown(
 
 [data-testid="stAppViewContainer"] {
     background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 30% at 90% 90%, rgba(80,40,140,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 35% at 50% 0%,   rgba(201,168,76,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 25% at 15% 30%,  rgba(201,168,76,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse 35% 25% at 85% 30%,  rgba(201,168,76,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 40% at 50% 100%, rgba(201,168,76,0.04) 0%, transparent 60%),
         #080810 !important;
     min-height: 100vh;
 }
@@ -65,13 +67,200 @@ st.markdown(
 .nav-pill { font-family: 'Outfit', sans-serif; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-glow); border: 1px solid var(--gold-border); padding: 0.28rem 0.85rem; border-radius: 20px; }
 
 /* ── HERO ── */
-.hero { padding: 5rem 0 3rem; text-align: center; position: relative; }
-.hero::before { content:''; position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); width:500px; height:200px; background:radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%); pointer-events:none; }
-.hero-eyebrow { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; display:flex; align-items:center; justify-content:center; gap:0.8rem; }
+.hero {
+    padding: 6rem 0 4rem;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+}
+
+/* ════ CINEMATIC ATMOSPHERE ════ */
+
+/* Wide ambient halo at top — like stadium lighting */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110%;
+    height: 55%;
+    background:
+        radial-gradient(ellipse 70% 100% at 50% 0%,
+            rgba(201,168,76,0.055) 0%,
+            rgba(201,168,76,0.02)  45%,
+            transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Left headlight cone beam ── */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: 4%;
+    width: 42%;
+    height: 90%;
+    background:
+        conic-gradient(from -18deg at 18% 100%,
+            transparent       0deg,
+            rgba(201,168,76,0.015) 15deg,
+            rgba(226,192,106,0.055) 28deg,
+            rgba(201,168,76,0.015) 42deg,
+            transparent       58deg);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(4px);
+}
+
+/* ── Right headlight cone beam ── */
+.hero-beam-right {
+    position: absolute;
+    bottom: -60px;
+    right: 4%;
+    width: 42%;
+    height: 90%;
+    background:
+        conic-gradient(from 160deg at 82% 100%,
+            transparent       0deg,
+            rgba(201,168,76,0.015) 15deg,
+            rgba(226,192,106,0.055) 28deg,
+            rgba(201,168,76,0.015) 42deg,
+            transparent       58deg);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(4px);
+}
+
+/* ── Left headlight source orb ── */
+.hero-orb-left {
+    position: absolute;
+    bottom: -15px;
+    left: calc(4% + 5%);
+    width: 110px;
+    height: 42px;
+    background: radial-gradient(ellipse,
+        rgba(255,252,220,0.85)  0%,
+        rgba(240,210,120,0.55)  25%,
+        rgba(201,168,76,0.25)   55%,
+        transparent             80%);
+    border-radius: 50%;
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 2;
+    animation: breathe 4s ease-in-out infinite;
+}
+
+/* ── Right headlight source orb ── */
+.hero-orb-right {
+    position: absolute;
+    bottom: -15px;
+    right: calc(4% + 5%);
+    width: 110px;
+    height: 42px;
+    background: radial-gradient(ellipse,
+        rgba(255,252,220,0.85)  0%,
+        rgba(240,210,120,0.55)  25%,
+        rgba(201,168,76,0.25)   55%,
+        transparent             80%);
+    border-radius: 50%;
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 2;
+    animation: breathe 4s ease-in-out infinite 0.6s;
+}
+
+/* ── Inner headlight ring — like DRL ring ── */
+.hero-drl-left {
+    position: absolute;
+    bottom: -5px;
+    left: calc(4% + 5% + 25px);
+    width: 55px;
+    height: 18px;
+    background: radial-gradient(ellipse,
+        rgba(255,255,240,0.95) 0%,
+        rgba(255,240,180,0.7)  40%,
+        transparent            80%);
+    border-radius: 50%;
+    filter: blur(5px);
+    pointer-events: none;
+    z-index: 3;
+    animation: breathe 4s ease-in-out infinite;
+}
+
+.hero-drl-right {
+    position: absolute;
+    bottom: -5px;
+    right: calc(4% + 5% + 25px);
+    width: 55px;
+    height: 18px;
+    background: radial-gradient(ellipse,
+        rgba(255,255,240,0.95) 0%,
+        rgba(255,240,180,0.7)  40%,
+        transparent            80%);
+    border-radius: 50%;
+    filter: blur(5px);
+    pointer-events: none;
+    z-index: 3;
+    animation: breathe 4s ease-in-out infinite 0.6s;
+}
+
+/* ── Ground reflection / wet road glow ── */
+.hero-ground {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(180deg,
+        rgba(201,168,76,0.06)  0%,
+        rgba(201,168,76,0.035) 40%,
+        transparent            100%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(8px);
+}
+
+/* ── Subtle center glow behind text ── */
+.hero-center-glow {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 200px;
+    background: radial-gradient(ellipse,
+        rgba(201,168,76,0.05) 0%,
+        transparent           65%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── All content above effects ── */
+.hero-content {
+    position: relative;
+    z-index: 4;
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 1;    transform: scale(1);    filter: blur(10px); }
+    50%       { opacity: 0.72; transform: scale(0.94); filter: blur(12px); }
+}
+
+@keyframes pulse-orb {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.75; }
+}
+    50%       { opacity: 0.75; transform: scaleX(0.92); }
+}
+.hero-eyebrow { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.38em; text-transform:uppercase; color:rgba(201,168,76,0.85); margin-bottom:1.8rem; display:flex; align-items:center; justify-content:center; gap:1rem; text-shadow: 0 0 20px rgba(201,168,76,0.3); }
 .hero-eyebrow::before, .hero-eyebrow::after { content:''; width:28px; height:1px; background:var(--gold-dim); }
-.hero-h1 { font-family:'Playfair Display',serif !important; font-size:clamp(2.8rem,7.5vw,4.8rem) !important; font-weight:300 !important; line-height:1.1 !important; letter-spacing:-0.01em !important; color:var(--text-1) !important; margin-bottom:0.2rem !important; }
-.hero-h1 .accent { font-style:italic; background:linear-gradient(135deg,#e2c06a 0%,#c9a84c 50%,#a07830 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.hero-sub { font-family:'Outfit',sans-serif; font-size:0.88rem; font-weight:300; color:var(--text-3); letter-spacing:0.06em; margin-top:1.2rem; margin-bottom:3rem; }
+.hero-h1 { font-family:'Playfair Display',serif !important; font-size:clamp(2.8rem,7.5vw,4.8rem) !important; font-weight:300 !important; line-height:1.15 !important; letter-spacing:-0.01em !important; color:#f5ede0 !important; margin-bottom:0.2rem !important; text-shadow: 0 0 80px rgba(201,168,76,0.12), 0 2px 20px rgba(0,0,0,0.8) !important; }
+.hero-h1 .accent { font-style:italic; background:linear-gradient(175deg,#f0d080 0%,#e2c06a 25%,#c9a84c 55%,#a07830 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; filter: drop-shadow(0 0 25px rgba(201,168,76,0.35)); }
+.hero-sub { font-family:'Outfit',sans-serif; font-size:0.88rem; font-weight:300; color:rgba(200,185,165,0.65); letter-spacing:0.08em; margin-top:1.4rem; margin-bottom:3.5rem; }
 .hero-orn { display:flex; align-items:center; justify-content:center; gap:0.6rem; }
 .hero-orn-l { width:48px; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dim)); }
 .hero-orn-r { width:48px; height:1px; background:linear-gradient(90deg,var(--gold-dim),transparent); }
@@ -270,13 +459,24 @@ st.markdown(
 st.markdown(
     """
 <div class="hero">
-    <div class="hero-eyebrow">Intelligent Valuation Engine</div>
-    <div class="hero-h1">Know the true<br><span class="accent">worth of your car</span></div>
-    <div class="hero-sub">Machine-learning powered &nbsp;·&nbsp; 3,500+ real transactions &nbsp;·&nbsp; Indian market</div>
-    <div class="hero-orn">
-        <span class="hero-orn-l"></span>
-        <span class="hero-orn-d">◆</span>
-        <span class="hero-orn-r"></span>
+    <!-- ═══ Cinematic atmosphere layers ═══ -->
+    <div class="hero-beam-right"></div>
+    <div class="hero-orb-left"></div>
+    <div class="hero-orb-right"></div>
+    <div class="hero-drl-left"></div>
+    <div class="hero-drl-right"></div>
+    <div class="hero-ground"></div>
+    <div class="hero-center-glow"></div>
+    <!-- ═══ Hero content ═══ -->
+    <div class="hero-content">
+        <div class="hero-eyebrow">Intelligent Valuation Engine</div>
+        <div class="hero-h1">Know the true<br><span class="accent">worth of your car</span></div>
+        <div class="hero-sub">Machine-learning powered &nbsp;·&nbsp; 3,500+ real transactions &nbsp;·&nbsp; Indian market</div>
+        <div class="hero-orn">
+            <span class="hero-orn-l"></span>
+            <span class="hero-orn-d">◆</span>
+            <span class="hero-orn-r"></span>
+        </div>
     </div>
 </div>
 """,
@@ -298,7 +498,7 @@ st.markdown(
         <span class="stat-label">Brands Covered</span>
     </div>
     <div class="stat-item">
-        <span class="stat-num">~85%</span>
+        <span class="stat-num">~80%</span>
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
