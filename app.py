@@ -132,7 +132,7 @@ section[data-testid="stSidebar"] { display: none !important; }
 .hero-content {
     position: relative;
     z-index: 5;
-    padding-bottom: 6rem;
+    padding-bottom: 3rem;
     max-width: 1200px;
     margin: 0 auto;
     padding-left: 4rem;
@@ -174,8 +174,39 @@ section[data-testid="stSidebar"] { display: none !important; }
 .hero-orn-d { font-size:0.35rem; color:rgba(201,168,76,0.5); }
 
 /* ── STATS STRIP ── */
-.stats-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:16px; overflow:hidden; margin:2.5rem 0 3rem; }
-.stat-item { background:var(--surface-1); padding:1.8rem 1rem; text-align:center; }
+.stats-strip {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    margin:0 0 3rem;
+    position: relative;
+}
+.stats-strip::before {
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:80%; height:100%;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.04) 0%, transparent 70%);
+    pointer-events:none;
+}
+.stat-item {
+    background: transparent;
+    padding: 2.2rem 1rem;
+    text-align: center;
+    position: relative;
+}
+.stat-item:not(:last-child)::after {
+    content:'';
+    position:absolute;
+    right:0; top:25%; height:50%;
+    width:1px;
+    background: linear-gradient(180deg, transparent, rgba(201,168,76,0.2), transparent);
+}
 .stat-num { font-family:'Playfair Display',serif; font-size:1.55rem; font-weight:400; color:var(--gold); letter-spacing:-0.02em; display:block; line-height:1; margin-bottom:0.3rem; }
 .stat-label { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-3); }
 
@@ -377,7 +408,7 @@ section[data-testid="stSidebar"] { display: none !important; }
         padding: 1rem 0.5rem !important;
     }
     .stat-num {
-        font-size: 1.4rem !important;
+        font-size: 1.6rem !important;
     }
     .stat-label {
         font-size: 0.48rem !important;
@@ -561,7 +592,7 @@ st.markdown(
         <span class="stat-label">Brands Covered</span>
     </div>
     <div class="stat-item">
-        <span class="stat-num">~80%</span>
+        <span class="stat-num">~85%</span>
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
