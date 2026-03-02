@@ -224,7 +224,7 @@ section[data-testid="stSidebar"] { display: none !important; }
 [data-testid="stSelectbox"] label,
 [data-testid="stNumberInput"] label {
     font-family:'Outfit',sans-serif !important; font-size:0.63rem !important; font-weight:400 !important;
-    letter-spacing:0.15em !important; text-transform:uppercase !important; color:var(--text-3) !important; margin-bottom:0.25rem !important;
+    letter-spacing:0.15em !important; text-transform:uppercase !important; color:rgba(200,182,155,0.8) !important; margin-bottom:0.25rem !important;
 }
 [data-testid="stSelectbox"] > div > div,
 [data-testid="stNumberInput"] input {
@@ -354,6 +354,7 @@ section[data-testid="stSidebar"] { display: none !important; }
     .nav-bar {
         padding: 1rem 1.2rem !important;
     }
+    .nav-tagline { display: none !important; }
     .nav-logo {
         font-size: 1.1rem !important;
     }
