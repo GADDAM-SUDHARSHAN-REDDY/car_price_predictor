@@ -80,144 +80,59 @@ section[data-testid="stSidebar"] { display: none !important; }
 
 /* ── HERO ── */
 .hero {
-    padding: 5rem 0 0;
+    padding: 6rem 0 0;
     text-align: center;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     isolation: isolate;
-    /* Break out of container — use full viewport */
     width: 100vw;
     margin-left: calc(-50vw + 50%);
 }
 
-/* Soft top ambient */
+/* Deep radial warmth behind text — barely visible, felt not seen */
 .hero::before {
     content: '';
     position: absolute;
-    top: -20px; left: 50%;
+    top: 10%; left: 50%;
     transform: translateX(-50%);
-    width: 900px; height: 300px;
-    background: radial-gradient(ellipse,
-        rgba(201,168,76,0.06) 0%, transparent 65%);
+    width: 110%;
+    height: 85%;
+    background:
+        radial-gradient(ellipse 55% 55% at 50% 40%,
+            rgba(201,168,76,0.055) 0%,
+            rgba(201,168,76,0.02)  45%,
+            transparent           75%);
     pointer-events: none;
     z-index: 0;
 }
-.hero::after { display: none; }
-.hero-beam-right { display: none; }
 
-/* ════════════════════════════════════════════
-   BMW M3 STYLE — GOLD DRL BARS AT SCREEN EDGES
-   ════════════════════════════════════════════ */
-
-/* LEFT outer halo */
-.hero-orb-left {
+/* Very subtle vignette at edges — cinematic */
+.hero::after {
+    content: '';
     position: absolute;
-    bottom: 8px;
-    left: 2%;
-    width: 260px; height: 65px;
-    background: radial-gradient(ellipse,
-        rgba(255,245,190,0.28) 0%,
-        rgba(226,192,106,0.14) 40%,
-        rgba(201,168,76,0.05)  65%,
-        transparent            85%);
-    border-radius: 50%;
-    filter: blur(14px);
-    pointer-events: none;
-    z-index: 2;
-    animation: breathe 4s ease-in-out infinite;
-}
-
-/* RIGHT outer halo */
-.hero-orb-right {
-    position: absolute;
-    bottom: 8px;
-    right: 2%;
-    width: 260px; height: 65px;
-    background: radial-gradient(ellipse,
-        rgba(255,245,190,0.28) 0%,
-        rgba(226,192,106,0.14) 40%,
-        rgba(201,168,76,0.05)  65%,
-        transparent            85%);
-    border-radius: 50%;
-    filter: blur(14px);
-    pointer-events: none;
-    z-index: 2;
-    animation: breathe 4s ease-in-out infinite 0.8s;
-}
-
-/* LEFT DRL — BMW angular bar */
-.hero-drl-left {
-    position: absolute;
-    bottom: 32px;
-    left: 2.5%;
-    width: 200px; height: 5px;
-    background: linear-gradient(90deg,
-        transparent              0%,
-        rgba(201,168,76,0.25)   8%,
-        rgba(240,210,120,0.9)  30%,
-        rgba(255,250,210,1.0)  50%,
-        rgba(240,210,120,0.9)  70%,
-        rgba(201,168,76,0.25)  92%,
-        transparent             100%);
-    border-radius: 3px;
-    filter: blur(1px);
-    box-shadow: 0 0 12px rgba(255,240,160,0.5), 0 0 30px rgba(201,168,76,0.25);
-    pointer-events: none;
-    z-index: 4;
-    animation: drl-pulse 4s ease-in-out infinite;
-}
-
-/* RIGHT DRL — mirror */
-.hero-drl-right {
-    position: absolute;
-    bottom: 32px;
-    right: 2.5%;
-    width: 200px; height: 5px;
-    background: linear-gradient(90deg,
-        transparent              0%,
-        rgba(201,168,76,0.25)   8%,
-        rgba(240,210,120,0.9)  30%,
-        rgba(255,250,210,1.0)  50%,
-        rgba(240,210,120,0.9)  70%,
-        rgba(201,168,76,0.25)  92%,
-        transparent             100%);
-    border-radius: 3px;
-    filter: blur(1px);
-    box-shadow: 0 0 12px rgba(255,240,160,0.5), 0 0 30px rgba(201,168,76,0.25);
-    pointer-events: none;
-    z-index: 4;
-    animation: drl-pulse 4s ease-in-out infinite 0.8s;
-}
-
-/* Light cone beams sweeping upward from each headlight */
-.hero-ground {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 100%;
+    inset: 0;
     background:
-        conic-gradient(from -12deg at 4.5% 100%,
-            transparent 0deg,
-            rgba(201,168,76,0.018) 10deg,
-            rgba(201,168,76,0.04)  20deg,
-            rgba(201,168,76,0.018) 30deg,
-            transparent 42deg),
-        conic-gradient(from 148deg at 95.5% 100%,
-            transparent 0deg,
-            rgba(201,168,76,0.018) 10deg,
-            rgba(201,168,76,0.04)  20deg,
-            rgba(201,168,76,0.018) 30deg,
-            transparent 42deg);
+        radial-gradient(ellipse 100% 100% at 50% 50%,
+            transparent 40%,
+            rgba(8,8,16,0.55) 100%);
     pointer-events: none;
     z-index: 1;
 }
 
-.hero-center-glow { display: none; }
+/* All lights hidden */
+.hero-beam-right,
+.hero-orb-left,
+.hero-orb-right,
+.hero-drl-left,
+.hero-drl-right,
+.hero-ground,
+.hero-center-glow { display: none !important; }
 
-/* Hero content — constrained within container, centered */
+/* Content */
 .hero-content {
     position: relative;
     z-index: 5;
-    padding-bottom: 5rem;
+    padding-bottom: 6rem;
     max-width: 1200px;
     margin: 0 auto;
     padding-left: 4rem;
@@ -225,15 +140,13 @@ section[data-testid="stSidebar"] { display: none !important; }
 }
 
 @keyframes breathe {
-    0%, 100% { opacity: 1;    filter: blur(14px); }
-    50%       { opacity: 0.6;  filter: blur(18px); }
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.7; }
 }
-
 @keyframes drl-pulse {
-    0%, 100% { opacity: 1;    box-shadow: 0 0 12px rgba(255,240,160,0.5), 0 0 30px rgba(201,168,76,0.25); }
-    50%       { opacity: 0.7;  box-shadow: 0 0 8px rgba(255,240,160,0.3),  0 0 20px rgba(201,168,76,0.15); }
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.7; }
 }
-
 @keyframes pulse-orb {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.75; }
@@ -246,17 +159,19 @@ section[data-testid="stSidebar"] { display: none !important; }
 }
     50%       { opacity: 0.75; }
 }
+    50%       { opacity: 0.75; }
+}
     50%       { opacity: 0.75; transform: scaleX(0.92); }
 }
-.hero-eyebrow { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.38em; text-transform:uppercase; color:rgba(201,168,76,0.85); margin-bottom:1.8rem; display:flex; align-items:center; justify-content:center; gap:1rem; text-shadow: 0 0 20px rgba(201,168,76,0.3); }
-.hero-eyebrow::before, .hero-eyebrow::after { content:''; width:28px; height:1px; background:var(--gold-dim); }
-.hero-h1 { font-family:'Playfair Display',serif !important; font-size:clamp(2.8rem,7.5vw,4.8rem) !important; font-weight:300 !important; line-height:1.15 !important; letter-spacing:-0.01em !important; color:#f5ede0 !important; margin-bottom:0.2rem !important; text-shadow: 0 0 80px rgba(201,168,76,0.12), 0 2px 20px rgba(0,0,0,0.8) !important; }
-.hero-h1 .accent { font-style:italic; background:linear-gradient(175deg,#f0d080 0%,#e2c06a 25%,#c9a84c 55%,#a07830 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; filter: drop-shadow(0 0 25px rgba(201,168,76,0.35)); }
-.hero-sub { font-family:'Outfit',sans-serif; font-size:0.88rem; font-weight:300; color:rgba(200,185,165,0.65); letter-spacing:0.08em; margin-top:1.4rem; margin-bottom:3.5rem; }
+.hero-eyebrow { font-family:'Outfit',sans-serif; font-size:0.58rem; font-weight:500; letter-spacing:0.42em; text-transform:uppercase; color:rgba(201,168,76,0.7); margin-bottom:2rem; display:flex; align-items:center; justify-content:center; gap:1.2rem; }
+.hero-eyebrow::before, .hero-eyebrow::after { content:''; width:60px; height:1px; background:linear-gradient(90deg, transparent, rgba(201,168,76,0.5)); }
+.hero-h1 { font-family:'Playfair Display',serif !important; font-size:clamp(3.2rem,8vw,6rem) !important; font-weight:300 !important; line-height:1.1 !important; letter-spacing:-0.02em !important; color:#f0e8d8 !important; margin-bottom:0.2rem !important; }
+.hero-h1 .accent { font-style:italic; background:linear-gradient(160deg,#f5e090 0%,#e2c06a 30%,#c9a84c 60%,#9a7228 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-sub { font-family:'Outfit',sans-serif; font-size:0.85rem; font-weight:300; color:rgba(180,165,145,0.55); letter-spacing:0.1em; margin-top:1.6rem; margin-bottom:0; }
 .hero-orn { display:flex; align-items:center; justify-content:center; gap:0.6rem; }
-.hero-orn-l { width:48px; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dim)); }
-.hero-orn-r { width:48px; height:1px; background:linear-gradient(90deg,var(--gold-dim),transparent); }
-.hero-orn-d { font-size:0.38rem; color:var(--gold); opacity:0.6; }
+.hero-orn-l { width:80px; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4)); }
+.hero-orn-r { width:80px; height:1px; background:linear-gradient(90deg,rgba(201,168,76,0.4),transparent); }
+.hero-orn-d { font-size:0.35rem; color:rgba(201,168,76,0.5); }
 
 /* ── STATS STRIP ── */
 .stats-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:16px; overflow:hidden; margin:2.5rem 0 3rem; }
