@@ -253,7 +253,7 @@ st.markdown("""
         <span class="stat-label">Brands Covered</span>
     </div>
     <div class="stat-item">
-        <span class="stat-num">~85%</span>
+        <span class="stat-num">~80%</span>
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
@@ -479,7 +479,7 @@ if predict_clicked:
             with col_dl:
                 st.download_button("↓  Download Report", result_df.to_csv(index=False), "carval_report.csv", mime="text/csv")
             with col_share:
-                st.text_area("share", value=f"{brand or ''} {car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal AI", height=72)
+                st.text_area("share", value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal AI", height=72)
 
         except Exception as e:
             st.error(f"Prediction error: {e}")
