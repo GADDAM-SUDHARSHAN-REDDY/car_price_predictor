@@ -152,9 +152,9 @@ st.markdown(
 .complete-text { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold); }
 
 /* ── DOWNLOAD / SHARE ── */
-[data-testid="stDownloadButton"] > button { background:transparent !important; border:1px solid rgba(255,255,255,0.09) !important; color:var(--text-2) !important; border-radius:10px !important; font-family:'Outfit',sans-serif !important; font-size:0.68rem !important; font-weight:400 !important; letter-spacing:0.1em !important; padding:0.6rem 1.4rem !important; transition:all 0.2s !important; margin-top:0 !important; box-shadow:none !important; }
-[data-testid="stDownloadButton"] > button:hover { border-color:var(--gold-border) !important; color:var(--gold) !important; transform:none !important; box-shadow:none !important; }
-[data-testid="stTextArea"] textarea { background:var(--surface-2) !important; border:1px solid rgba(255,255,255,0.05) !important; border-radius:10px !important; color:var(--text-3) !important; font-family:'Outfit',sans-serif !important; font-size:0.75rem !important; font-weight:300 !important; resize:none !important; }
+[data-testid="stDownloadButton"] > button { background:rgba(201,168,76,0.08) !important; border:1px solid rgba(201,168,76,0.35) !important; color:#c9a84c !important; border-radius:10px !important; font-family:'Outfit',sans-serif !important; font-size:0.68rem !important; font-weight:500 !important; letter-spacing:0.12em !important; padding:0.65rem 1.4rem !important; transition:all 0.2s !important; margin-top:0 !important; box-shadow:0 0 20px rgba(201,168,76,0.08) !important; }
+[data-testid="stDownloadButton"] > button:hover { background:rgba(201,168,76,0.15) !important; border-color:rgba(201,168,76,0.6) !important; color:#e2c06a !important; transform:translateY(-2px) !important; box-shadow:0 4px 20px rgba(201,168,76,0.15) !important; }
+[data-testid="stTextArea"] textarea { background:rgba(255,255,255,0.04) !important; border:1px solid rgba(255,255,255,0.12) !important; border-radius:10px !important; color:#a89880 !important; font-family:'Outfit',sans-serif !important; font-size:0.78rem !important; font-weight:300 !important; resize:none !important; line-height:1.6 !important; padding:0.7rem 1rem !important; }
 [data-testid="stTextArea"] label { display:none !important; }
 
 /* ── FOOTER ── */
@@ -670,7 +670,7 @@ if predict_clicked:
             with col_share:
                 st.text_area(
                     "share",
-                    value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal",
+                    value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal AI",
                     height=72,
                 )
 
