@@ -11,13 +11,14 @@ st.set_page_config(
     page_title="CarVal · Intelligent Car Valuation",
     page_icon="🚗",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
 
 # ─────────────────────────────────────────────
 #  DESIGN SYSTEM — Obsidian & Champagne Gold
 # ─────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Outfit:wght@200;300;400;500;600&display=swap');
 
@@ -177,7 +178,10 @@ st.markdown("""
 ::-webkit-scrollbar-thumb { background:#1a1a28; border-radius:2px; }
 [data-testid="stSpinner"] p { color:var(--gold) !important; font-family:'Outfit',sans-serif !important; font-size:0.78rem !important; letter-spacing:0.1em !important; }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+
 
 # ─────────────────────────────────────────────
 #  LOAD ARTIFACTS
@@ -188,12 +192,14 @@ def load_model():
     c = joblib.load("model_columns.pkl")
     return m, c
 
+
 @st.cache_data
 def load_brand_model_map():
     try:
         return joblib.load("brand_model_map.pkl")
     except FileNotFoundError:
         return None
+
 
 def indian_format(n):
     n = int(n)
@@ -208,7 +214,8 @@ def indian_format(n):
         rest = rest[:-2]
     if rest:
         groups.append(rest)
-    return ','.join(reversed(groups)) + ',' + last3
+    return ",".join(reversed(groups)) + "," + last3
+
 
 model, columns = load_model()
 brand_model_map = load_brand_model_map()
@@ -216,17 +223,21 @@ brand_model_map = load_brand_model_map()
 # ─────────────────────────────────────────────
 #  NAVBAR
 # ─────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <div class="navbar">
     <div class="nav-logo">Car<em>Val</em></div>
     <div class="nav-pill">India · 2025</div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # ─────────────────────────────────────────────
 #  HERO
 # ─────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <div class="hero">
     <div class="hero-eyebrow">Intelligent Valuation Engine</div>
     <div class="hero-h1">Know the true<br><span class="accent">worth of your car</span></div>
@@ -237,12 +248,15 @@ st.markdown("""
         <span class="hero-orn-r"></span>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # ─────────────────────────────────────────────
 #  STATS STRIP
 # ─────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <div class="stats-strip">
     <div class="stat-item">
         <span class="stat-num">3,500+</span>
@@ -257,20 +271,28 @@ st.markdown("""
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # ─────────────────────────────────────────────
 #  FORM
 # ─────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <div class="form-header">
     <div class="form-header-line"></div>
     <div class="form-header-text">Vehicle Details</div>
     <div class="form-header-line"></div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
-st.markdown('<div class="step-badge"><div class="step-num">1</div><div class="step-text">Identity</div></div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="step-badge"><div class="step-num">1</div><div class="step-text">Identity</div></div>',
+    unsafe_allow_html=True,
+)
 if brand_model_map:
     c1, c2 = st.columns(2)
     with c1:
@@ -280,26 +302,52 @@ if brand_model_map:
 else:
     brand, car_model = None, None
 
-st.markdown('<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">2</div><div class="step-text">Usage History</div></div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">2</div><div class="step-text">Usage History</div></div>',
+    unsafe_allow_html=True,
+)
 c3, c4 = st.columns(2)
 with c3:
-    year = st.number_input("Year of Manufacture", min_value=1990, max_value=2025, value=2019)
+    year = st.number_input(
+        "Year of Manufacture", min_value=1990, max_value=2025, value=2019
+    )
 with c4:
-    km_driven = st.number_input("Kilometres Driven", min_value=0, max_value=1000000, value=45000, step=1000)
+    km_driven = st.number_input(
+        "Kilometres Driven", min_value=0, max_value=1000000, value=45000, step=1000
+    )
 
-st.markdown('<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">3</div><div class="step-text">Specifications</div></div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">3</div><div class="step-text">Specifications</div></div>',
+    unsafe_allow_html=True,
+)
 c5, c6 = st.columns(2)
 with c5:
-    fuel_type = st.selectbox("Fuel Type", ["Petrol", "Diesel", "CNG", "LPG", "Electric"])
+    fuel_type = st.selectbox(
+        "Fuel Type", ["Petrol", "Diesel", "CNG", "LPG", "Electric"]
+    )
 with c6:
     transmission = st.selectbox("Transmission", ["Manual", "Automatic"])
 
-st.markdown('<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">4</div><div class="step-text">Ownership</div></div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="step-badge" style="margin-top:1.2rem;"><div class="step-num">4</div><div class="step-text">Ownership</div></div>',
+    unsafe_allow_html=True,
+)
 c7, c8 = st.columns(2)
 with c7:
-    seller_type = st.selectbox("Seller Type", ["Individual", "Dealer", "Trustmark Dealer"])
+    seller_type = st.selectbox(
+        "Seller Type", ["Individual", "Dealer", "Trustmark Dealer"]
+    )
 with c8:
-    owner = st.selectbox("Owner History", ["First Owner", "Second Owner", "Third Owner", "Fourth & Above Owner", "Test Drive Car"])
+    owner = st.selectbox(
+        "Owner History",
+        [
+            "First Owner",
+            "Second Owner",
+            "Third Owner",
+            "Fourth & Above Owner",
+            "Test Drive Car",
+        ],
+    )
 
 # ─────────────────────────────────────────────
 #  CTA
@@ -320,34 +368,64 @@ if predict_clicked:
         input_data = dict.fromkeys(columns, 0)
 
         # ── Basic features ──
-        input_data['Year']      = year
-        input_data['KM_Driven'] = km_driven
+        input_data["Year"] = year
+        input_data["KM_Driven"] = km_driven
 
         # ── Engineered features (must match Colab training exactly) ──
         car_age = max(2025 - year, 0)
-        if 'Car_Age'     in input_data: input_data['Car_Age']     = car_age
-        if 'KM_Per_Year' in input_data: input_data['KM_Per_Year'] = km_driven / max(car_age, 1)
-        if 'Age_x_KM'    in input_data: input_data['Age_x_KM']    = car_age * km_driven
-        if 'Is_New'      in input_data: input_data['Is_New']      = 1 if car_age <= 3 else 0
-        if 'Is_High_KM'  in input_data: input_data['Is_High_KM']  = 1 if km_driven > 100000 else 0
+        if "Car_Age" in input_data:
+            input_data["Car_Age"] = car_age
+        if "KM_Per_Year" in input_data:
+            input_data["KM_Per_Year"] = km_driven / max(car_age, 1)
+        if "Age_x_KM" in input_data:
+            input_data["Age_x_KM"] = car_age * km_driven
+        if "Is_New" in input_data:
+            input_data["Is_New"] = 1 if car_age <= 3 else 0
+        if "Is_High_KM" in input_data:
+            input_data["Is_High_KM"] = 1 if km_driven > 100000 else 0
 
         brand_avg_map = {
-            'Maruti':450000,'Hyundai':550000,'Honda':650000,'Toyota':800000,
-            'Ford':500000,'Volkswagen':700000,'Skoda':750000,'Renault':400000,
-            'Datsun':280000,'Tata':400000,'Mahindra':600000,'BMW':2000000,
-            'Audi':2500000,'Mercedes-Benz':3000000,'Jeep':1500000,'Kia':900000,
-            'MG':1000000,'Nissan':450000,'Fiat':350000,'Chevrolet':350000,
-            'Volvo':2000000,'Land':3500000,'Mitsubishi':800000,'Jaguar':2500000,
-            'Daewoo':180000,'Force':500000,'Isuzu':700000,'OpelCorsa':200000,'Ambassador':150000
+            "Maruti": 450000,
+            "Hyundai": 550000,
+            "Honda": 650000,
+            "Toyota": 800000,
+            "Ford": 500000,
+            "Volkswagen": 700000,
+            "Skoda": 750000,
+            "Renault": 400000,
+            "Datsun": 280000,
+            "Tata": 400000,
+            "Mahindra": 600000,
+            "BMW": 2000000,
+            "Audi": 2500000,
+            "Mercedes-Benz": 3000000,
+            "Jeep": 1500000,
+            "Kia": 900000,
+            "MG": 1000000,
+            "Nissan": 450000,
+            "Fiat": 350000,
+            "Chevrolet": 350000,
+            "Volvo": 2000000,
+            "Land": 3500000,
+            "Mitsubishi": 800000,
+            "Jaguar": 2500000,
+            "Daewoo": 180000,
+            "Force": 500000,
+            "Isuzu": 700000,
+            "OpelCorsa": 200000,
+            "Ambassador": 150000,
         }
         fuel_avg_map = {
-            'Petrol':450000,'Diesel':650000,
-            'CNG':300000,'LPG':250000,'Electric':800000
+            "Petrol": 450000,
+            "Diesel": 650000,
+            "CNG": 300000,
+            "LPG": 250000,
+            "Electric": 800000,
         }
-        if 'Brand_Avg_Price' in input_data:
-            input_data['Brand_Avg_Price'] = brand_avg_map.get(brand, 500000)
-        if 'Fuel_Avg_Price' in input_data:
-            input_data['Fuel_Avg_Price'] = fuel_avg_map.get(fuel_type, 450000)
+        if "Brand_Avg_Price" in input_data:
+            input_data["Brand_Avg_Price"] = brand_avg_map.get(brand, 500000)
+        if "Fuel_Avg_Price" in input_data:
+            input_data["Fuel_Avg_Price"] = fuel_avg_map.get(fuel_type, 450000)
 
         # ── One-hot encoded categoricals ──
         mappings = [
@@ -364,11 +442,12 @@ if predict_clicked:
 
         try:
             predicted_price = max(model.predict(pd.DataFrame([input_data]))[0], 0)
-            fmt   = indian_format(predicted_price)
-            lakh  = f"{predicted_price/100000:.2f} Lakh"
+            fmt = indian_format(predicted_price)
+            lakh = f"{predicted_price/100000:.2f} Lakh"
 
             # RESULT CARD
-            st.markdown(f"""
+            st.markdown(
+                f"""
             <div class="result-outer">
               <div class="result-inner">
                 <div class="result-eyebrow">Estimated Market Value</div>
@@ -383,83 +462,178 @@ if predict_clicked:
                 </div>
               </div>
             </div>
-            """, unsafe_allow_html=True)
+            """,
+                unsafe_allow_html=True,
+            )
 
             # BENCHMARK CHART
             fig = go.Figure()
             for label, val, color in [
-                ("Your Car",   predicted_price, "#c9a84c"),
-                ("Mkt Avg",    550000,           "#3a3028"),
-                ("Min Range",  80000,            "#252020"),
-                ("Max Range",  1500000,          "#1e1a18"),
+                ("Your Car", predicted_price, "#c9a84c"),
+                ("Mkt Avg", 550000, "#3a3028"),
+                ("Min Range", 80000, "#252020"),
+                ("Max Range", 1500000, "#1e1a18"),
             ]:
-                fig.add_trace(go.Bar(
-                    name=label, x=[label], y=[val], marker_color=color, marker_line_width=0,
-                    text=f"₹{val/100000:.1f}L", textposition='outside',
-                    textfont=dict(color='#584f44', size=10, family='Outfit')
-                ))
+                fig.add_trace(
+                    go.Bar(
+                        name=label,
+                        x=[label],
+                        y=[val],
+                        marker_color=color,
+                        marker_line_width=0,
+                        text=f"₹{val/100000:.1f}L",
+                        textposition="outside",
+                        textfont=dict(color="#584f44", size=10, family="Outfit"),
+                    )
+                )
             fig.update_layout(
-                barmode='group', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Outfit', color='#584f44', size=10),
+                barmode="group",
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(family="Outfit", color="#584f44", size=10),
                 showlegend=True,
-                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1, font=dict(size=9, color='#584f44'), bgcolor='rgba(0,0,0,0)'),
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=1.02,
+                    xanchor="right",
+                    x=1,
+                    font=dict(size=9, color="#584f44"),
+                    bgcolor="rgba(0,0,0,0)",
+                ),
                 xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-                yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.03)', zeroline=False, tickfont=dict(size=9), tickformat=',.0f', tickprefix='₹'),
-                margin=dict(l=10, r=10, t=44, b=10), height=290, bargap=0.35,
+                yaxis=dict(
+                    showgrid=True,
+                    gridcolor="rgba(255,255,255,0.03)",
+                    zeroline=False,
+                    tickfont=dict(size=9),
+                    tickformat=",.0f",
+                    tickprefix="₹",
+                ),
+                margin=dict(l=10, r=10, t=44, b=10),
+                height=290,
+                bargap=0.35,
             )
-            st.markdown('<div class="chart-header"><span class="chart-title">Price Benchmark</span><span class="chart-sub">vs Indian Market</span></div>', unsafe_allow_html=True)
-            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+            st.markdown(
+                '<div class="chart-header"><span class="chart-title">Price Benchmark</span><span class="chart-sub">vs Indian Market</span></div>',
+                unsafe_allow_html=True,
+            )
+            st.plotly_chart(
+                fig, use_container_width=True, config={"displayModeBar": False}
+            )
 
             # KM TREND CHART
-            km_range = [max(0, km_driven-40000), max(0, km_driven-20000), km_driven, km_driven+20000, km_driven+40000]
+            km_range = [
+                max(0, km_driven - 40000),
+                max(0, km_driven - 20000),
+                km_driven,
+                km_driven + 20000,
+                km_driven + 40000,
+            ]
             trend_prices = []
             for k in km_range:
                 row = dict.fromkeys(columns, 0)
-                row['Year']      = year
-                row['KM_Driven'] = k
+                row["Year"] = year
+                row["KM_Driven"] = k
                 ca = max(2025 - year, 0)
-                if 'Car_Age'          in row: row['Car_Age']          = ca
-                if 'KM_Per_Year'      in row: row['KM_Per_Year']      = k / max(ca, 1)
-                if 'Age_x_KM'         in row: row['Age_x_KM']         = ca * k
-                if 'Is_New'           in row: row['Is_New']           = 1 if ca <= 3 else 0
-                if 'Is_High_KM'       in row: row['Is_High_KM']       = 1 if k > 100000 else 0
-                if 'Brand_Avg_Price'  in row: row['Brand_Avg_Price']  = brand_avg_map.get(brand, 500000)
-                if 'Fuel_Avg_Price'   in row: row['Fuel_Avg_Price']   = fuel_avg_map.get(fuel_type, 450000)
+                if "Car_Age" in row:
+                    row["Car_Age"] = ca
+                if "KM_Per_Year" in row:
+                    row["KM_Per_Year"] = k / max(ca, 1)
+                if "Age_x_KM" in row:
+                    row["Age_x_KM"] = ca * k
+                if "Is_New" in row:
+                    row["Is_New"] = 1 if ca <= 3 else 0
+                if "Is_High_KM" in row:
+                    row["Is_High_KM"] = 1 if k > 100000 else 0
+                if "Brand_Avg_Price" in row:
+                    row["Brand_Avg_Price"] = brand_avg_map.get(brand, 500000)
+                if "Fuel_Avg_Price" in row:
+                    row["Fuel_Avg_Price"] = fuel_avg_map.get(fuel_type, 450000)
                 for item in mappings:
                     if item and item[0] in row:
                         row[item[0]] = item[1]
                 trend_prices.append(max(model.predict(pd.DataFrame([row]))[0], 0))
 
             fig2 = go.Figure()
-            fig2.add_trace(go.Scatter(
-                x=km_range, y=trend_prices, mode='lines',
-                line=dict(color='rgba(201,168,76,0.25)', width=2),
-                fill='tozeroy', fillcolor='rgba(201,168,76,0.03)',
-                showlegend=False, hovertemplate='%{x:,} km → ₹%{y:,.0f}<extra></extra>'
-            ))
-            fig2.add_trace(go.Scatter(
-                x=km_range, y=trend_prices, mode='markers',
-                marker=dict(color='rgba(201,168,76,0.45)', size=5, line=dict(color='#080810', width=1)),
-                showlegend=False
-            ))
-            fig2.add_trace(go.Scatter(
-                x=[km_driven], y=[predicted_price], mode='markers',
-                marker=dict(color='#c9a84c', size=14, line=dict(color='#080810', width=2.5)),
-                showlegend=False, hovertemplate=f'Your Car: ₹{fmt}<extra></extra>'
-            ))
-            fig2.add_vline(x=km_driven, line_width=1, line_dash='dot', line_color='rgba(201,168,76,0.15)')
-            fig2.update_layout(
-                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Outfit', color='#584f44', size=10), showlegend=False,
-                xaxis=dict(title=dict(text='Kilometres Driven', font=dict(size=10)), showgrid=False, zeroline=False, tickfont=dict(size=9)),
-                yaxis=dict(title=dict(text='Estimated Price', font=dict(size=10)), showgrid=True, gridcolor='rgba(255,255,255,0.03)', zeroline=False, tickfont=dict(size=9), tickformat=',.0f', tickprefix='₹'),
-                margin=dict(l=10, r=10, t=20, b=10), height=260, hovermode='x unified'
+            fig2.add_trace(
+                go.Scatter(
+                    x=km_range,
+                    y=trend_prices,
+                    mode="lines",
+                    line=dict(color="rgba(201,168,76,0.25)", width=2),
+                    fill="tozeroy",
+                    fillcolor="rgba(201,168,76,0.03)",
+                    showlegend=False,
+                    hovertemplate="%{x:,} km → ₹%{y:,.0f}<extra></extra>",
+                )
             )
-            st.markdown('<div class="chart-header"><span class="chart-title">Depreciation Curve</span><span class="chart-sub">Price vs KM Driven</span></div>', unsafe_allow_html=True)
-            st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
+            fig2.add_trace(
+                go.Scatter(
+                    x=km_range,
+                    y=trend_prices,
+                    mode="markers",
+                    marker=dict(
+                        color="rgba(201,168,76,0.45)",
+                        size=5,
+                        line=dict(color="#080810", width=1),
+                    ),
+                    showlegend=False,
+                )
+            )
+            fig2.add_trace(
+                go.Scatter(
+                    x=[km_driven],
+                    y=[predicted_price],
+                    mode="markers",
+                    marker=dict(
+                        color="#c9a84c", size=14, line=dict(color="#080810", width=2.5)
+                    ),
+                    showlegend=False,
+                    hovertemplate=f"Your Car: ₹{fmt}<extra></extra>",
+                )
+            )
+            fig2.add_vline(
+                x=km_driven,
+                line_width=1,
+                line_dash="dot",
+                line_color="rgba(201,168,76,0.15)",
+            )
+            fig2.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(family="Outfit", color="#584f44", size=10),
+                showlegend=False,
+                xaxis=dict(
+                    title=dict(text="Kilometres Driven", font=dict(size=10)),
+                    showgrid=False,
+                    zeroline=False,
+                    tickfont=dict(size=9),
+                ),
+                yaxis=dict(
+                    title=dict(text="Estimated Price", font=dict(size=10)),
+                    showgrid=True,
+                    gridcolor="rgba(255,255,255,0.03)",
+                    zeroline=False,
+                    tickfont=dict(size=9),
+                    tickformat=",.0f",
+                    tickprefix="₹",
+                ),
+                margin=dict(l=10, r=10, t=20, b=10),
+                height=260,
+                hovermode="x unified",
+            )
+            st.markdown(
+                '<div class="chart-header"><span class="chart-title">Depreciation Curve</span><span class="chart-sub">Price vs KM Driven</span></div>',
+                unsafe_allow_html=True,
+            )
+            st.plotly_chart(
+                fig2, use_container_width=True, config={"displayModeBar": False}
+            )
 
             # COMPLETE BANNER
-            st.markdown("""
+            st.markdown(
+                """
             <div class="complete-banner">
                 <span class="complete-line"></span>
                 <span class="complete-icon">◈</span>
@@ -467,19 +641,38 @@ if predict_clicked:
                 <span class="complete-icon">◈</span>
                 <span class="complete-line"></span>
             </div>
-            """, unsafe_allow_html=True)
+            """,
+                unsafe_allow_html=True,
+            )
 
             # DOWNLOAD + SHARE
-            result_df = pd.DataFrame({
-                "Brand":[brand or "—"],"Model":[car_model or "—"],"Year":[year],
-                "KM Driven":[km_driven],"Fuel":[fuel_type],"Transmission":[transmission],
-                "Seller Type":[seller_type],"Owner":[owner],"Estimated Price (₹)":[indian_format(predicted_price)],
-            })
+            result_df = pd.DataFrame(
+                {
+                    "Brand": [brand or "—"],
+                    "Model": [car_model or "—"],
+                    "Year": [year],
+                    "KM Driven": [km_driven],
+                    "Fuel": [fuel_type],
+                    "Transmission": [transmission],
+                    "Seller Type": [seller_type],
+                    "Owner": [owner],
+                    "Estimated Price (₹)": [indian_format(predicted_price)],
+                }
+            )
             col_dl, col_share = st.columns([1, 2])
             with col_dl:
-                st.download_button("↓  Download Report", result_df.to_csv(index=False), "carval_report.csv", mime="text/csv")
+                st.download_button(
+                    "↓  Download Report",
+                    result_df.to_csv(index=False),
+                    "carval_report.csv",
+                    mime="text/csv",
+                )
             with col_share:
-                st.text_area("share", value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal AI", height=72)
+                st.text_area(
+                    "share",
+                    value=f"{car_model or ''} · {year} · {km_driven:,} km · {fuel_type} — Valued at ₹{indian_format(predicted_price)} by CarVal",
+                    height=72,
+                )
 
         except Exception as e:
             st.error(f"Prediction error: {e}")
@@ -487,7 +680,8 @@ if predict_clicked:
 # ─────────────────────────────────────────────
 #  FOOTER
 # ─────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <div class="footer-section">
     <div class="footer-top-border"></div>
     <span class="footer-wordmark">Car<em>Val</em></span>
@@ -506,4 +700,6 @@ st.markdown("""
         <span>© 2025</span>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
