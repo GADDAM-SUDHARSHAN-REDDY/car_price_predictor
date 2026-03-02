@@ -160,8 +160,8 @@ st.markdown(
 /* ── FOOTER ── */
 .footer-section { margin-top:5rem; padding-top:3rem; position:relative; text-align:center; }
 .footer-top-border { position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:1px; background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.05) 25%,rgba(201,168,76,0.5) 50%,rgba(255,255,255,0.05) 75%,transparent 100%); }
-.footer-wordmark { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:300; letter-spacing:0.35em; text-transform:uppercase; color:rgba(242,236,224,0.12); display:block; margin-bottom:1.5rem; line-height:1; user-select:none; }
-.footer-wordmark em { font-style:italic; color:rgba(201,168,76,0.22); }
+.footer-wordmark { font-family:'Playfair Display',serif; font-size:clamp(3rem,7vw,5rem); font-weight:700; letter-spacing:0.4em; text-transform:uppercase; color:rgba(242,236,224,0.07); display:block; margin-bottom:1.8rem; line-height:1; user-select:none; -webkit-text-stroke:1px rgba(201,168,76,0.25); text-stroke:1px rgba(201,168,76,0.25); }
+.footer-wordmark em { font-style:italic; -webkit-text-stroke:1px rgba(201,168,76,0.5); text-stroke:1px rgba(201,168,76,0.5); color:rgba(201,168,76,0.12); }
 .footer-mid { display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:1.2rem; }
 .footer-brand-sm { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:400; color:rgba(201,168,76,0.95); letter-spacing:0.1em; }
 .footer-brand-sm em { font-style:italic; color:#c9a84c; }
