@@ -76,6 +76,7 @@ section[data-testid="stSidebar"] { display: none !important; }
 }
 .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 400; color: var(--text-1); letter-spacing: 0.06em; }
 .nav-logo em { color: var(--gold); font-style: italic; }
+.nav-tagline { font-family:'Outfit',sans-serif; font-size:0.55rem; font-weight:300; letter-spacing:0.3em; color:rgba(201,168,76,0.4); text-transform:uppercase; }
 .nav-pill { font-family: 'Outfit', sans-serif; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-glow); border: 1px solid var(--gold-border); padding: 0.28rem 0.85rem; border-radius: 20px; }
 
 /* ── HERO ── */
@@ -211,14 +212,14 @@ section[data-testid="stSidebar"] { display: none !important; }
 .stat-label { font-family:'Outfit',sans-serif; font-size:0.56rem; font-weight:400; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-3); }
 
 /* ── FORM HEADER ── */
-.form-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.8rem; }
-.form-header-line { flex:1; height:1px; background:rgba(255,255,255,0.05); }
-.form-header-text { font-family:'Outfit',sans-serif; font-size:0.58rem; font-weight:500; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); white-space:nowrap; }
+.form-header { display:flex; align-items:center; gap:1.2rem; margin-bottom:2.5rem; margin-top:1rem; }
+.form-header-line { flex:1; height:1px; background:linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent); }
+.form-header-text { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:400; letter-spacing:0.08em; color:#f0e8d8; white-space:nowrap; }
 
 /* ── STEP BADGE ── */
-.step-badge { display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:0.7rem; }
-.step-num { width:20px; height:20px; border-radius:50%; background:var(--gold-glow); border:1px solid var(--gold-border); font-family:'Outfit',sans-serif; font-size:0.58rem; font-weight:600; color:var(--gold); display:flex; align-items:center; justify-content:center; }
-.step-text { font-family:'Outfit',sans-serif; font-size:0.6rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-2); }
+.step-badge { display:flex; align-items:center; gap:0.7rem; margin-bottom:1.2rem; padding-bottom:0.9rem; border-bottom:1px solid rgba(255,255,255,0.05); }
+.step-num { width:28px; height:28px; border-radius:50%; background:rgba(201,168,76,0.1); border:1.5px solid rgba(201,168,76,0.5); font-family:'Outfit',sans-serif; font-size:0.62rem; font-weight:700; color:#e2c06a; display:flex; align-items:center; justify-content:center; box-shadow:0 0 12px rgba(201,168,76,0.15); }
+.step-text { font-family:'Outfit',sans-serif; font-size:0.72rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(201,168,76,0.85); }
 
 /* ── WIDGETS ── */
 [data-testid="stSelectbox"] label,
@@ -542,6 +543,7 @@ st.markdown(
     """
 <div class="navbar">
     <div class="nav-logo">Car<em>Val</em></div>
+    <div class="nav-tagline">— Intelligent Valuation —</div>
     <div class="nav-pill">India · 2025</div>
 </div>
 """,
@@ -593,7 +595,7 @@ st.markdown(
         <span class="stat-label">Brands Covered</span>
     </div>
     <div class="stat-item">
-        <span class="stat-num">~85%</span>
+        <span class="stat-num">84.67%</span>
         <span class="stat-label">Accuracy</span>
     </div>
 </div>
