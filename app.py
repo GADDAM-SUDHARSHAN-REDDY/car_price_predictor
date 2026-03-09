@@ -1023,7 +1023,7 @@ st.markdown(
         <span class="dot">·</span>
         <span>Indian Used Car Market</span>
         <span class="dot">·</span>
-        <span>Crafted by <span class="name">Tagore</span></span>
+        <span>Crafted by <span class="name">Sudharshan</span></span>
         <span class="dot">·</span>
         <span>© 2025</span>
     </div>
